@@ -1,0 +1,46 @@
+Planejamento do SaaS Multi-tenancy para pequenas empressas.
+
+Sistema de Delivery
+
+- Usuário final
+- O estabelecimento
+- Admin do sistema
+
+Funcionalidades:
+
+- Carrinho de compras com (checkout)
+- Listagens de produtos
+- Login/Cadastro
+- Visualização de pedidos
+
+- Gestão de pedidos
+- Gestão de produtos
+
+- Gestão do estabecimento
+
+Telas:
+
+- Home (Listagens de promoções e produtos)
+- Página de produtos especifiico
+- Carrinho de compras
+- Login/Cadastro
+- Checkout (para logado)
+- Cadastro de endereços
+- Lista de pedidos
+- Pedido individual
+
+- Login/Cadastro para estabelecimentos
+- Listagens de pedidos
+- Edição de pedidos
+- Listagens de produtos
+- Edição de produtos
+
+- Listagem de estabelecimentos
+- Edição de estabelecimentos
+
+Tecnologias que serão utilizadas:
+
+- Next com (SSR) e Prisma com (ORM)
+- SQLite
+- API RESTful
+- Typescript
