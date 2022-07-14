@@ -1,4 +1,5 @@
 import { Banner } from "../../components/banner";
+import { ProductItem } from "../../components/productItem";
 import { SearchInput } from "../../components/searchInput";
 
 const Home = () => {
@@ -27,8 +28,11 @@ const Home = () => {
           />
         </div>
       </header>
-      <div>
-        <Banner />
+       <Banner />
+      <div className="m-auto grid grid-cols-2 px-6 gap-6">
+        <ProductItem />
+        <ProductItem />
+        <ProductItem />
       </div>
     </div>
   );
