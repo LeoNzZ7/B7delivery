@@ -22,12 +22,8 @@ export const SearchInput = ({ mainColor, onSearch }: Props) => {
     onSearch(searchValue);
   };
 
-  const handleInputFocused = () => {
-    setFocused(!focused)
-  }
-
   return(
-    <div className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px] border-white ${focused ? mainColor : "border-[#FFF]"}`}>
+    <div className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px] ${focused ? mainColor : "border-[#FFF]"}`}>
         <label className="flex justify-center items-cente">
           <button 
           onClick={() => handleSearch}
@@ -36,8 +32,8 @@ export const SearchInput = ({ mainColor, onSearch }: Props) => {
           </button>
           <input 
             type='text' 
-            onFocus={() => handleInputFocused()}
-            onBlur={() => handleInputFocused()}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
             onKeyUp={handleKeyUp}
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}
