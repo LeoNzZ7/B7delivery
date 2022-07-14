@@ -22,7 +22,7 @@ const Home = () => {
         </div>
         <div className="w-full h-[60px] mt-6">
           <SearchInput
-            mainColor="#FB9400"
+            mainColor="border-[#FB9400]"
             onSearch={handleSearch}
           />
         </div>

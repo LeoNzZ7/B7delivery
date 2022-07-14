@@ -18,13 +18,16 @@ export const SearchInput = ({ mainColor, onSearch }: Props) => {
     };
   };
 
-  const handleSearch = (event: FormEvent,searchValue: string) => {
-    event.preventDefault();
+  const handleSearch = (searchValue: string) => {
     onSearch(searchValue);
   };
 
+  const handleInputFocused = () => {
+    setFocused(!focused)
+  }
+
   return(
-    <div className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px] border-white ${focused ? `border-[${mainColor}]` : "border-[#FFF]"}`}>
+    <div className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px] border-white ${focused ? mainColor : "border-[#FFF]"}`}>
         <label className="flex justify-center items-cente">
           <button 
           onClick={() => handleSearch}
@@ -33,8 +36,8 @@ export const SearchInput = ({ mainColor, onSearch }: Props) => {
           </button>
           <input 
             type='text' 
-            onFocus={e => setFocused(true)}
-            onBlur={e => setFocused(false)}
+            onFocus={() => handleInputFocused()}
+            onBlur={() => handleInputFocused()}
             onKeyUp={handleKeyUp}
             value={searchValue}
             onChange={e => setSearchValue(e.target.value)}
@@ -42,5 +45,5 @@ export const SearchInput = ({ mainColor, onSearch }: Props) => {
             placeholder="Digite o nome do burguer" />
         </label>
     </div>
-  )
+  );
 }
