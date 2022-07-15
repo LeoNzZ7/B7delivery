@@ -30,9 +30,31 @@ const Home = () => {
       </header>
        <Banner />
       <div className="m-auto grid grid-cols-2 px-6 gap-6">
-        <ProductItem />
-        <ProductItem />
-        <ProductItem />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        mainColor="#FB9400"
+        secondColor="#FFF9F2"
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        mainColor="#FB9400"
+        secondColor="#FFF9F2"
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        mainColor="#FB9400"
+        secondColor="#FFF9F2"
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        mainColor="#FB9400"
+        secondColor="#FFF9F2"
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        mainColor="#FB9400"
+        secondColor="#FFF9F2"
+        />
       </div>
     </div>
   );
