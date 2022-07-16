@@ -10,7 +10,7 @@ type Props = {
 export const ProductItem = ({ data, mainColor, secondColor }: Props) => {
   return(
     <Link href={`/product/1`} >
-      <a href="" className="flex flex-col " > 
+      <a href="" className="flex flex-col"> 
         <div className={`bg-[${secondColor}] h-[80px] rounded-t-xl`}></div>
         <div className="h-[110px] flex flex-col px-2 rounded-b-xl drop-shadow-xl bg-white">
           <div className="flex justify-center"> 
