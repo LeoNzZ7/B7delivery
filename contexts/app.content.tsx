@@ -19,7 +19,7 @@ type Props = {
 };
 
 export const AppContextProvider = ({ children }: Props) => {
-  const [tenant, setTenant] = useState<Tenant | null>(null)
+  const [tenant, setTenant] = useState<Tenant | null>(null);
   
   return (
     <appContext.Provider value={{ tenant, setTenant  }} >

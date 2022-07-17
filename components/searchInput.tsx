@@ -23,12 +23,12 @@ export const SearchInput = ({ mainColor, onSearch }: Props) => {
   };
 
   return(
-    <div className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px] ${focused ? mainColor : "border-[#FFF]"}`}>
+    <div className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px]`}>
         <label className="flex justify-center items-cente">
           <button 
           onClick={() => handleSearch}
           className="flex justify-center items-center h-[48] w-[48] bg-[#F9F9F9] p-2 rounded-md">
-            <MagnifyingGlass className="text-[#FB9400]" size={32} />
+            <MagnifyingGlass style={{ color: mainColor }} size={32} />
           </button>
           <input 
             type='text' 
