@@ -25,7 +25,7 @@ export const SearchInput = ({ onSearch }: Props) => {
   };
 
   return(
-    <div style={{ borderColor: focused ? tenant?.mainColor : '#FFF' }} className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px]`}>
+    <div style={{ borderColor: focused ? tenant?.mainColor : '#FFF' }} className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px] transition-colors`}>
         <label className="flex justify-center items-cente">
           <button 
           onClick={() => handleSearch}

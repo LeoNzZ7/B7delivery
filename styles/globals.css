@@ -6,5 +6,5 @@
 
 body {
   font-family: "Inter", "sans-serif";
-  @apply bg-white transition-colors;
+  @apply bg-white;
 }
