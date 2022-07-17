@@ -5,3 +5,4 @@
 ### ✔ Tailwindcss
 ### ✔ Postcss
 ### ✔ Swiper
+### ✔ ContextAPI
