@@ -1,12 +1,14 @@
 import { MagnifyingGlass } from "phosphor-react"
-import { FormEvent, FormEventHandler, useState } from "react";
+import { useState } from "react";
+import { useAppContext } from "../contexts/app.content";
 
 type Props = {
-  mainColor: string;
   onSearch: (searchValue: string) => void
 }
 
-export const SearchInput = ({ mainColor, onSearch }: Props) => {
+export const SearchInput = ({ onSearch }: Props) => {
+  const { tenant } = useAppContext();
+
   const [focused, setFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   
@@ -23,12 +25,12 @@ export const SearchInput = ({ mainColor, onSearch }: Props) => {
   };
 
   return(
-    <div className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px]`}>
+    <div style={{ borderColor: focused ? tenant?.mainColor : '#FFF' }} className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px]`}>
         <label className="flex justify-center items-cente">
           <button 
           onClick={() => handleSearch}
           className="flex justify-center items-center h-[48] w-[48] bg-[#F9F9F9] p-2 rounded-md">
-            <MagnifyingGlass style={{ color: mainColor }} size={32} />
+            <MagnifyingGlass style={{ color: tenant?.mainColor }} size={32} />
           </button>
           <input 
             type='text' 

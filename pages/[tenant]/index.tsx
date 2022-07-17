@@ -12,10 +12,10 @@ const Home = (data: Props) => {
 
   useEffect(() => {
     setTenant(data.tenant);
-  })
+  });
 
   const handleSearch = (searchValue: string) => {
-    console.log(searchValue, tenant)
+    console.log(searchValue)
   };
 
   return (
@@ -34,7 +34,6 @@ const Home = (data: Props) => {
         </div>
         <div className="w-full h-[60px] mt-6">
           <SearchInput
-            mainColor={tenant?.mainColor as string}
             onSearch={handleSearch}
           />
         </div>
@@ -43,20 +42,32 @@ const Home = (data: Props) => {
       <div className="m-auto grid grid-cols-2 px-6 gap-6">
         <ProductItem 
         data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
-        mainColor={tenant?.mainColor as string}
-        secondColor={tenant?.secondColor as string}
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        />
+        <ProductItem 
+        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
         />
       </div>
     </div>
   );
-}
+};
 
 export default Home;
 
-
 type Props = {
   tenant: Tenant;
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const api = UseApi();
@@ -66,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if(!tenant) {
     return { redirect: { destination: '/', permanent: false } }
-  }
+  };
 
   return {
     props: {
