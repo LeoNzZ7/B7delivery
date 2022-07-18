@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useEffect } from "react";
 import { Header } from "../../components/header";
+import { Input } from "../../components/input";
 import { useAppContext } from "../../contexts/app.content";
 import { UseApi } from "../../libs/useApi";
 import { Tenant } from "../../types/tenatn";
@@ -18,6 +19,19 @@ const Login = (data: Props) => {
         <title>Login | {data.tenant.name}</title>
       </head>
       <Header />
+      <div className="flex flex-col items-center justify-center p-6" >
+        <h1 className="loginTitle text-[36px] font-extrabold">{tenant?.name}</h1>
+        <span className="text-center w-[177px] h-[39px text-[#1B1B1B]" >Use suas credencias para realizar o login.</span>
+        <div className="flex w-full mt-6">
+          <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
+          <div style={{ backgroundColor: tenant?.mainColor }} className="w-[55%] h-[3px]"></div>
+          <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
+        </div>
+        <div className="mt-5 w-full" >
+          <Input type="text" placeholder="Digite seu email" />
+          <Input type="password" placeholder="Digite sua senha" />
+        </div>
+      </div>
     </div>
   );
 };
