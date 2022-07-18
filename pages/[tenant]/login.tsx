@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import { useEffect } from "react";
+import { Button } from "../../components/button";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
 import { useAppContext } from "../../contexts/app.content";
@@ -31,6 +32,7 @@ const Login = (data: Props) => {
           <Input type="text" placeholder="Digite seu email" />
           <Input type="password" placeholder="Digite sua senha" />
         </div>
+        <Button invertColors={false} buttonText="Entrar" />
       </div>
     </div>
   );
