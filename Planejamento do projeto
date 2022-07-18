@@ -1,4 +1,4 @@
-Planejamento do SaaS Multi-tenancy para pequenas empressas.
+Planejamento do SaaS Multi-tenancy para pequenas empresas.
 
 Sistema de Delivery
 
@@ -16,12 +16,12 @@ Funcionalidades:
 - Gestão de pedidos
 - Gestão de produtos
 
-- Gestão do estabecimento
+- Gestão do estabelecimento
 
 Telas:
 
 - Home (Listagens de promoções e produtos)
-- Página de produtos especifiico
+- Página de produtos específicos
 - Carrinho de compras
 - Login/Cadastro
 - Checkout (para logado)

@@ -40,23 +40,23 @@ const Home = (data: Props) => {
       </header>
       <Banner />
       <div className="m-auto grid grid-cols-2 px-6 gap-6">
-        <ProductItem 
-        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        <ProductItem
+          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
         />
-        <ProductItem 
-        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        <ProductItem
+          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
         />
-        <ProductItem 
-        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        <ProductItem
+          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
         />
-        <ProductItem 
-        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        <ProductItem
+          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
         />
-        <ProductItem 
-        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        <ProductItem
+          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
         />
-        <ProductItem 
-        data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90'  }}
+        <ProductItem
+          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
         />
       </div>
     </div>
@@ -75,7 +75,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
   const tenant = api.getTenant(tenantSlug as string);
 
-  if(!tenant) {
+  if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }
   };
 
