@@ -18,7 +18,7 @@ const Login = (data: Props) => {
     <div>
       <head>
         <title>Login | {data.tenant.name}</title>
-      </head>
+    </head>
       <Header />
       <div className="flex flex-col items-center justify-center p-6" >
         <h1 className="loginTitle text-[36px] font-extrabold">{tenant?.name}</h1>
