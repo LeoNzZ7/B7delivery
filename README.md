@@ -6,6 +6,7 @@
 ### ✔ Postcss
 ### ✔ Swiper
 ### ✔ ContextAPI
+### ✔ Hooks
 # 👨‍💻 Autor
 ### Made with 💜 by Leonardo Nunes Martinha
 <div style='display' display='inline-block'><br> 
