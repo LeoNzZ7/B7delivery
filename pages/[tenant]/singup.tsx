@@ -8,7 +8,7 @@ import { useAppContext } from "../../contexts/app.content";
 import { UseApi } from "../../libs/useApi";
 import { Tenant } from "../../types/tenatn";
 
-const Login = (data: Props) => {
+const Register = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Login = (data: Props) => {
   return (
     <div>
       <head>
-        <title>Login | {data.tenant.name}</title>
+        <title>Cadastro | {data.tenant.name}</title>
     </head>
       <Header />
       <div className="flex flex-col items-center justify-center p-6" >
@@ -29,29 +29,28 @@ const Login = (data: Props) => {
           <div style={{ backgroundColor: tenant?.mainColor }} className="w-[55%] h-[3px]"></div>
           <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
         </div>
-        <div className="mt-10 w-full" >
+        <div className="mt-5 w-full" >
+          <Input type="text" placeholder="Digite seu Nome" />
           <Input type="email" placeholder="Digite seu email" />
           <Input type="password" placeholder="Digite sua senha" />
         </div>
         <Button invertColors={false} buttonText="Entrar" />
-        <span className="text-[16px] my-10" >
-          Esqueceu a senha? 
-          <a className="text-[16px]" style={{ color: tenant?.mainColor }} href="" >
-            Clique aqui
-          </a>
-        </span>
-        <div className="flex w-full mb-5">
-          <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
-          <div style={{ backgroundColor: tenant?.mainColor }} className="w-[55%] h-[3px]"></div>
-          <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
+        <div className="flex items-center my-10">
+          <span className="text-[16px] mr-2" >
+            Já tem cadastro? 
+          </span>
+          <Link className="ml-2" href={`http://localhost:3000/${tenant?.slug}/singin`} >
+            <span className="text-[16px]" style={{ color: tenant?.mainColor }} >
+              fazer login
+            </span>
+          </Link>
         </div>
-        <Button invertColors={true} buttonText="Quero me cadastrar" />
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;
 
 type Props = {
   tenant: Tenant;
