@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAppContext } from "../contexts/app.content";
 
 type Props = {
-  type: "text" | "password";
+  type: "text" | "email" | "password"; 
   placeholder: string;
 }
 
@@ -12,18 +12,31 @@ export const Input = ({ type, placeholder }: Props) => {
   const [focused, setfocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   return (
     <div className="flex mt-5 items-center">
-      {type === 'text' && showPassword === false &&
+      {type === 'text' &&
         <input
           onFocus={() => setfocused(true)}
           onBlur={() => setfocused(false)}
           type={type}
           style={{ border: focused ? `1px solid ${tenant?.mainColor}` : '1px solid transparent' }}
           className='w-full h-[60px] mt-5 rounded focus:ring-0 bg-[#F9F9FB] transition-colors'
+          placeholder={placeholder}
+          value={name}
+          onChange={e => setEmail(e.target.value)}
+        />
+      }
+      {type === 'email' &&
+        <input
+          onFocus={() => setfocused(true)}
+          onBlur={() => setfocused(false)}
+          type={type}
+          style={{ border: focused ? `1px solid ${tenant?.mainColor}` : '1px solid transparent' }}
+          className='w-full h-[60px] rounded focus:ring-0 bg-[#F9F9FB] transition-colors'
           placeholder={placeholder}
           value={email}
           onChange={e => setEmail(e.target.value)}
