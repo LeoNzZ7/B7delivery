@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Link from "next/link";
 import { useEffect } from "react";
 import { Button } from "../../components/button";
 import { Header } from "../../components/header";
@@ -33,6 +34,18 @@ const Login = (data: Props) => {
           <Input type="password" placeholder="Digite sua senha" />
         </div>
         <Button invertColors={false} buttonText="Entrar" />
+        <span className="text-[16px] my-10" >
+          Esqueceu a senha? 
+          <a className="text-[16px]" style={{ color: tenant?.mainColor }} href="" >
+            Clique aqui
+          </a>
+        </span>
+        <div className="flex w-full mb-5">
+          <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
+          <div style={{ backgroundColor: tenant?.mainColor }} className="w-[55%] h-[3px]"></div>
+          <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
+        </div>
+        <Button invertColors={true} buttonText="Quero me cadastrar" />
       </div>
     </div>
   );
