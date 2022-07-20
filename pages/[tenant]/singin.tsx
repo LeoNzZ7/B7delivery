@@ -4,13 +4,15 @@ import { useEffect } from "react";
 import { Button } from "../../components/button";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
+import { B7BurguerTitle } from "../../components/SVGS/B7burguerTItle";
+import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
 import { UseApi } from "../../libs/useApi";
 import { Tenant } from "../../types/tenatn";
 
 const Login = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
-
+  
   useEffect(() => {
     setTenant(data.tenant);
   });
@@ -19,10 +21,17 @@ const Login = (data: Props) => {
     <div>
       <head>
         <title>Login | {data.tenant.name}</title>
-    </head>
+      </head>
       <Header />
       <div className="flex flex-col items-center justify-center p-6" >
-        <h1 className="loginTitle text-[36px] font-extrabold">{tenant?.name}</h1>
+        <div className="mb-10" > 
+          {data.tenant.slug === 'b7burguer' &&
+            <B7BurguerTitle />
+          }
+          {data.tenant.slug === 'b7pizza' &&
+            <B7PizzaTitle />
+          }
+        </div>
         <span className="text-center w-[177px] h-[39px text-[#1B1B1B]" >Use suas credencias para realizar o login.</span>
         <div className="flex w-full mt-6">
           <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
@@ -36,7 +45,7 @@ const Login = (data: Props) => {
         <Button invertColors={false} buttonText="Entrar" />
         <div className="flex items-center my-10" >
           <span className="text-[16px] mr-2" >
-            Esqueceu a senha? 
+            Esqueceu a senha?
           </span>
           <Link className="ml-2" href={`http://localhost:3000/${tenant?.slug}/singup`} >
             <span className="text-[16px]" style={{ color: tenant?.mainColor }} >
