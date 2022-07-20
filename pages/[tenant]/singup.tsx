@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { Button } from "../../components/button";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
-import { B7BurguerTitle } from "../../components/SVGS/B7burguerTItle";
+import { B7BurguerTitle } from "../../components/SVGS/b7BurguerTItle";
 import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
 import { UseApi } from "../../libs/useApi";

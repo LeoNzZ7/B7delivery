@@ -47,7 +47,7 @@ const Login = (data: Props) => {
           <span className="text-[16px] mr-2" >
             Esqueceu a senha?
           </span>
-          <Link className="ml-2" href={`http://localhost:3000/${tenant?.slug}/singup`} >
+          <Link className="ml-2" href={`http://localhost:3000/${tenant?.slug}/forgot`} >
             <span className="text-[16px]" style={{ color: tenant?.mainColor }} >
               Clique aqui
             </span>
@@ -58,7 +58,7 @@ const Login = (data: Props) => {
           <div style={{ backgroundColor: tenant?.mainColor }} className="w-[55%] h-[3px]"></div>
           <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
         </div>
-        <Button invertColors={true} buttonText="Quero me cadastrar" />
+        <Button invertColors={true} buttonText="Quero me cadastrar" link={`http://localhost:3000/${tenant?.slug}/singup`} />
       </div>
     </div>
   );
