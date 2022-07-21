@@ -1,6 +1,16 @@
-export const UseApi = () => ({
+import { Product } from "../types/product";
 
-  getTenant: (tenantSlug: string) => {
+const TemporaryOneProduct: Product = {
+  id: 1,
+  image: '/temp/burguer001.png',
+  name: 'Texas',
+  categoryName: 'tradicional',
+  price: 25.90,
+  description: 'Delicioso burguer de picanha'
+}
+export const UseApi = (tenantSlug: string) => ({
+
+  getTenant: () => {
     switch (tenantSlug) {
       case 'b7burguer':
         return {
@@ -22,5 +32,18 @@ export const UseApi = () => ({
 
         dafault: return false;
     }
+  },
+
+  getAllProducts: () => {
+    let products: Product[] = [];
+    for(let i = 0; i < 10; i++) {
+      products.push(TemporaryOneProduct);
+    }
+
+    return products;
+  },
+
+  getProduct: (id: string) => {
+    return TemporaryOneProduct;
   }
 });

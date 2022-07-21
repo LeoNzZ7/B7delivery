@@ -19,7 +19,7 @@ export const ProductItem = ({ data }: Props) => {
           </div>
           <span className="text-[8px] font-bold text-[#1B1B1B]">{data.categoryName}</span>
           <h1 className="font-extrabold text-[18px] text-[#1B1B1B]">{data.name}</h1>
-          <span style={{ color: tenant?.mainColor }} className={`text-[15px] font-bold`}>{data.price}</span>
+          <span style={{ color: tenant?.mainColor }} className={`text-[15px] font-bold`}>{data.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</span>
         </div>
       </a>
     </Link>

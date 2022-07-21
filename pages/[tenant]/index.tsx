@@ -1,10 +1,11 @@
 import { GetServerSideProps } from "next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Banner } from "../../components/banner";
 import { ProductItem } from "../../components/productItem";
 import { SearchInput } from "../../components/searchInput";
 import { useAppContext } from "../../contexts/app.content";
 import { UseApi } from "../../libs/useApi";
+import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenatn";
 
 const Home = (data: Props) => {
@@ -13,6 +14,8 @@ const Home = (data: Props) => {
   useEffect(() => {
     setTenant(data.tenant);
   });
+
+  const [products, setProducts] = useState<Product[]>(data.products);
 
   const handleSearch = (searchValue: string) => {
     console.log(searchValue)
@@ -40,23 +43,22 @@ const Home = (data: Props) => {
       </header>
       <Banner />
       <div className="m-auto grid grid-cols-2 px-6 gap-6">
+        {products.map((item, index) => (
+          <ProductItem
+            key={index}
+            data={item}
+          />
+        ))}
+
         <ProductItem
-          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
-        />
-        <ProductItem
-          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
-        />
-        <ProductItem
-          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
-        />
-        <ProductItem
-          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
-        />
-        <ProductItem
-          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
-        />
-        <ProductItem
-          data={{ id: 1, image: '/temp/burguer001.png', name: 'texas', categoryName: 'tradicional', price: 'R$ 25,90' }}
+          data={{
+            id: 1,
+            image: '/temp/burguer001.png',
+            name: 'Texas',
+            categoryName: 'tradicional',
+            price: 25.90,
+            description: 'Delicioso burguer de picanha'
+          }}
         />
       </div>
     </div>
@@ -67,21 +69,24 @@ export default Home;
 
 type Props = {
   tenant: Tenant;
+  products: Product[];
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const api = UseApi();
-
   const { tenant: tenantSlug } = context.query;
-  const tenant = api.getTenant(tenantSlug as string);
+  const api = UseApi(tenantSlug as string);
+  const tenant = api.getTenant();
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }
   };
 
+  const products = api.getAllProducts();
+
   return {
     props: {
-      tenant
+      tenant,
+      products
     }
   };
 };
