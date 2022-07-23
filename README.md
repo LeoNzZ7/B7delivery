@@ -7,6 +7,7 @@
 ### ✔ Swiper
 ### ✔ ContextAPI
 ### ✔ Hooks
+### ✔ Prisma
 # 👨‍💻 Autor
 ### Made with 💜 by Leonardo Nunes Martinha
 <div style='display' display='inline-block'><br> 
