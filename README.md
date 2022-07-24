@@ -8,6 +8,7 @@
 ### ✔ ContextAPI
 ### ✔ Hooks
 ### ✔ Prisma
+### ✔ PostgreSQL
 # 👨‍💻 Autor
 ### Made with 💜 by Leonardo Nunes Martinha
 <div style='display' display='inline-block'><br> 
