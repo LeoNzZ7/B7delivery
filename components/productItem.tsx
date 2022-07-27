@@ -10,7 +10,7 @@ export const ProductItem = ({ data }: Props) => {
   const { tenant } = useAppContext();
 
   return(
-    <Link href={`/product/1`} >
+    <Link href={`${tenant?.slug}/${data.id}`} >
       <a href="" className="flex flex-col"> 
         <div style={{ backgroundColor: tenant?.secondColor }} className={`h-[80px] rounded-t-xl`}></div>
         <div className="h-[110px] flex flex-col px-2 rounded-b-xl drop-shadow-xl bg-white">

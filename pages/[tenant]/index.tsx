@@ -4,9 +4,9 @@ import { Banner } from "../../components/banner";
 import { ProductItem } from "../../components/productItem";
 import { SearchInput } from "../../components/searchInput";
 import { useAppContext } from "../../contexts/app.content";
-import { UseApi } from "../../libs/useApi";
+import { useApi } from "../../libs/useApi";
 import { Product } from "../../types/product";
-import { Tenant } from "../../types/tenatn";
+import { Tenant } from "../../types/tenant";
 
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -44,22 +44,8 @@ const Home = (data: Props) => {
       <Banner />
       <div className="m-auto grid grid-cols-2 px-6 gap-6">
         {products.map((item, index) => (
-          <ProductItem
-            key={index}
-            data={item}
-          />
+          <ProductItem data={item} key={index} />
         ))}
-
-        <ProductItem
-          data={{
-            id: 1,
-            image: '/temp/burguer001.png',
-            name: 'Texas',
-            categoryName: 'tradicional',
-            price: 25.90,
-            description: 'Delicioso burguer de picanha'
-          }}
-        />
       </div>
     </div>
   );
@@ -74,7 +60,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
-  const api = UseApi(tenantSlug as string);
+  const api = useApi(tenantSlug as string);
   const tenant = api.getTenant();
 
   if (!tenant) {

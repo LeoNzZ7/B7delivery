@@ -1,14 +1,10 @@
 import { Product } from "../types/product";
 
-const TemporaryOneProduct: Product = {
-  id: 1,
-  image: '/temp/burguer001.png',
-  name: 'Texas',
-  categoryName: 'tradicional',
-  price: 25.90,
-  description: 'Delicioso burguer de picanha'
-}
-export const UseApi = (tenantSlug: string) => ({
+const TemporaryOneProduct: Product[] = [
+  {id: 1, image: '/temp/burguer001.png', name: 'Texas Burguer', categoryName: 'tradicional', price: 25.90, description: '2 Blends de carne de 150g, Queijo Cheddar, Bacon Caramelizado, Salada, Molho da casa, Pão brioche artesanal.' },
+  {id: 2, image: '/temp/burguer001.png', name: 'Golden Burguer', categoryName: 'tradicional', price: 25.90, description: 'Delicioso burguer de picanha' }
+]
+export const useApi = (tenantSlug: string) => ({
 
   getTenant: () => {
     switch (tenantSlug) {
@@ -35,15 +31,14 @@ export const UseApi = (tenantSlug: string) => ({
   },
 
   getAllProducts: () => {
-    let products: Product[] = [];
-    for(let i = 0; i < 10; i++) {
-      products.push(TemporaryOneProduct);
-    }
-
-    return products;
+    return TemporaryOneProduct;
   },
 
   getProduct: (id: string) => {
-    return TemporaryOneProduct;
+    for(let i in TemporaryOneProduct) {
+      if(parseInt(id) === TemporaryOneProduct[i].id) {
+        return TemporaryOneProduct[i];
+      }
+    }
   }
 });

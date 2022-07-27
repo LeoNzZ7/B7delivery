@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import { Button } from "../../components/button";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
-import { B7BurguerTitle } from "../../components/SVGS/B7burguerTItle";
+import { B7BurguerTitle } from "../../components/SVGS/b7BurguerTItle";
 import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
 import { UseApi } from "../../libs/useApi";
-import { Tenant } from "../../types/tenatn";
+import { Tenant } from "../../types/tenant";
 
 const Login = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -71,10 +71,10 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const api = UseApi();
-
   const { tenant: tenantSlug } = context.query;
-  const tenant = api.getTenant(tenantSlug as string);
+
+  const api = UseApi(tenantSlug as string);
+  const tenant = api.getTenant();
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }

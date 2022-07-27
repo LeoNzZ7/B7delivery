@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { Tenant } from "../types/tenatn"; 
+import { Tenant } from "../types/tenant"; 
 
 type appContextType = {
   tenant: Tenant | null;
