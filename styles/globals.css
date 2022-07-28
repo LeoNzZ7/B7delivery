@@ -8,3 +8,11 @@ body {
   font-family: "Inter", "sans-serif";
   @apply bg-white;
 }
+
+.burguer:hover {
+  background-color: #FB9400;
+}
+
+.pizza:hover {
+  background-color: #6AB70A;
+}

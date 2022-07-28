@@ -2,7 +2,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { ArrowLeft, Heart } from "phosphor-react";
 import { useEffect } from "react";
-import { Counter } from "../../../components/Counter";
+import { Button } from "../../../components/button";
+import { Counter } from "../../../components/counter";
 import { useAppContext } from "../../../contexts/app.content";
 import { useApi } from "../../../libs/useApi";
 import { Product } from "../../../types/product";
@@ -23,7 +24,9 @@ const Product = (data: Props) => {
       <div style={{ backgroundColor: tenant?.mainColor }} className="absolute h-[383px] w-screen" >
         <div className="px-9 mt-[70px]">
           <div className="flex justify-between" >
-            <div className="w-12 h-12 bg-[#F08E00] flex justify-center items-center rounded-md" >
+            <div 
+            style={{ backgroundColor: tenant?.slug === "b7burguer" ? "#F08E00" : "#62A70D" }} 
+            className="w-12 h-12 flex justify-center items-center rounded-md" >
               <ArrowLeft weight="bold" size={24} className='w-6 text-white' />
             </div>
             <div className="flex flex-1 flex-col justify-center items-center">
@@ -31,7 +34,8 @@ const Product = (data: Props) => {
             </div>
             <div
               onClick={() => alert("Funcionalidade em desenvolvimento")}
-              className="w-12 h-12 bg-[#F08E00] flex justify-center items-center rounded-md" >
+              style={{ backgroundColor: tenant?.slug === "b7burguer" ? "#F08E00" : "#62A70D" }} 
+              className="w-12 h-12 flex justify-center items-center rounded-md" >
               <Heart size={24} className='w-6 text-white' />
             </div>
           </div>
@@ -48,11 +52,21 @@ const Product = (data: Props) => {
           <div style={{ backgroundColor: data.tenant.secondColor }} className="w-[25%] h-[2px]"></div>
         </div>
         <div className="px-5" >
-          <p>{data.product.description}</p>
+          <p className="text-[#4D4D4D] text-[16px]" >{data.product.description}</p>
         </div>
-        <div className="px-5 mt-5">
-          <span>Quantidade</span>
-          <Counter />
+        <div className="px-5 mt-5 flex justify-between items-end">
+          <div>
+            <span>Quantidade</span>
+            <Counter />
+          </div>
+          <span 
+          style={{ color: tenant?.mainColor }}
+          className="font-semibold text-[40px]" >
+            {data.product.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+          </span>
+        </div>
+        <div className="px-5 flex items-center h-[150px]" >
+          <Button invertColors={false} buttonText="Adicionar à sacOla" />
         </div>
       </div>
     </div>

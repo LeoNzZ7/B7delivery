@@ -11,7 +11,7 @@ export const Counter = () => {
   }
 
   const handleCountersubtract = () => {
-    if(amount > 0) {
+    if(amount > 1) {
       setAmount(amount - 1);
     }
   }
@@ -20,10 +20,11 @@ export const Counter = () => {
     <div className="flex w-[140px] justify-around items-center mt-3 h-12"> 
       <button 
       className=
-      {`bg-[#F2F4F5] h-full flex-1 rounded-l-md text-[#96A3AB]`}
+      {`bg-[#F2F4F5] h-full flex-1 font-semibold text-[24px] rounded-l-md text-[#96A3AB] ${tenant?.slug === 'b7burguer' ? 'burguer' : 'pizza'}`}
       onClick={handleCountersubtract}
       >-</button>
-      <div style={{ color: tenant?.mainColor }} className="h-full flex flex-1 justify-center items-center font-bold">
+      <div style={{ color: tenant?.mainColor }} 
+        className="h-full flex flex-1 justify-center items-center font-bold">
         {amount < 10 &&
           0
         }
@@ -31,7 +32,7 @@ export const Counter = () => {
       </div>
       <button 
       className=
-      {`bg-[#F2F4F5] h-full flex-1 rounded-r-md text-[#96A3AB]`}
+        {`bg-[#F2F4F5] h-full flex-1 font-semibold text-[24px] rounded-r-md text-[#96A3AB] ${tenant?.slug === 'b7burguer' ? 'burguer' : 'pizza'}`}
       onClick={handleCounterSum}
       >+</button>
     </div>
