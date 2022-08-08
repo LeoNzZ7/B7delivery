@@ -16,3 +16,7 @@ body {
 .pizza:hover {
   background-color: #6AB70A;
 }
+
+.transition-menu {
+  transition: all ease .35s;
+}
