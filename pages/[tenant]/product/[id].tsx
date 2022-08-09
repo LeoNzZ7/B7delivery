@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { ArrowLeft, Heart } from "phosphor-react";
 import { useEffect } from "react";
 import { Button } from "../../../components/button";
@@ -11,6 +12,8 @@ import { Tenant } from "../../../types/tenant";
 
 const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
+
+  const router = useRouter();
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -27,7 +30,9 @@ const Product = (data: Props) => {
             <div 
             style={{ backgroundColor: tenant?.slug === "b7burguer" ? "#F08E00" : "#62A70D" }} 
             className="w-12 h-12 flex justify-center items-center rounded-md" >
-              <ArrowLeft weight="bold" size={24} className='w-6 text-white' />
+              <button onClick={() => router.back()} >
+                <ArrowLeft weight="bold" size={24} className='w-6 text-white' />
+              </button>
             </div>
             <div className="flex flex-1 flex-col justify-center items-center">
               <h1 className="font-semibold text-[24px] h-7 text-white">Produto</h1>

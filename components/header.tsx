@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { ArrowLeft } from "phosphor-react";
 import { useAppContext } from "../contexts/app.content";
 
@@ -9,10 +10,14 @@ type Props = {
 export const Header = ({ title, subTitle }: Props) => {
   const { tenant } = useAppContext();
 
+  const router = useRouter()
+
   return (
     <div className="px-9 mt-[76px]">
       <div className="flex" >
-        <ArrowLeft style={{ color: tenant?.mainColor }} size={24} className='w-6' />
+        <button onClick={() => router.back()} >
+          <ArrowLeft style={{ color: tenant?.mainColor }} size={24} className='w-6' />
+        </button>
         {title &&
           <div className="flex flex-1 flex-col justify-center items-center mt-[-12px]">
             <h1 className="font-semibold text-[24px] h-7">{title}</h1>

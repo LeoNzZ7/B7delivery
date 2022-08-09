@@ -1,4 +1,4 @@
-import { ClipboardText, ForkKnife, Gear, Heart, ShoppingBagOpen, X } from "phosphor-react";
+import { ClipboardText, ForkKnife, Gear, Heart, ShoppingBagOpen, SignOut, X } from "phosphor-react";
 import Link from "next/link";
 import { useAppContext } from "../contexts/app.content";
 import { useState } from "react";
@@ -46,7 +46,7 @@ export const Menu = ({ openMenu, setOpenMenu }: props) => {
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <ShoppingBagOpen size={16} className="mr-4" />
-          <Link href="" >Sacola</Link>
+          <Link href="b7burguer/bag">Sacola</Link>
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <Heart size={16} className="mr-4" />
@@ -59,6 +59,10 @@ export const Menu = ({ openMenu, setOpenMenu }: props) => {
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <Gear size={16} className="mr-4" />
           <Link href="" >Configurações</Link>
+        </div>
+        <div className="flex items-center text-[#6A7D8B] mt-[325px] text-[16px]">
+          <SignOut size={16} className="mr-4" />
+          <Link href="" >Sair</Link>
         </div>
       </div>
     </div>
