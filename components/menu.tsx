@@ -1,7 +1,7 @@
 import { ClipboardText, ForkKnife, Gear, Heart, ShoppingBagOpen, SignOut, X } from "phosphor-react";
+import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useAppContext } from "../contexts/app.content";
-import { useState } from "react";
 
 type props = {
   openMenu: boolean;
@@ -10,23 +10,23 @@ type props = {
 
 export const Menu = ({ openMenu, setOpenMenu }: props) => {
   const { tenant } = useAppContext();
-
-  const [isLogged, setIsLogged] = useState(false);
+  const { data: session } = useSession();
 
   return(
     <div className=
       {`fixed top-0 px-[30px] ${openMenu ? "left-0" : "left-1000"} ${openMenu ? "translate-x-0" : "translate-x-[1000px]"} bg-white h-screen w-screen transition-menu`}>
       <div className="flex justify-between mt-[56px] pl-[30px]">
-        {!isLogged &&
+        {!session &&
           <button
             className="w-[72%] h-[56px] rounded-md font-bold text-white"
+            onClick={() => signIn()}
             style={{ backgroundColor: tenant?.mainColor as string }} >
             Fazer Login
           </button>
         }
-        {isLogged &&
+        {session &&
           <div>
-            <span className="font-medium text-[24px] block">Leonardo Nunes</span>
+            <span className="font-medium text-[24px] block">{session.user?.name}</span>
             <span className="text-[#96A3AB] text-[18px]">Ultimo pedido há 2 semanas</span>
           </div>
         }
@@ -60,10 +60,12 @@ export const Menu = ({ openMenu, setOpenMenu }: props) => {
           <Gear size={16} className="mr-4" />
           <Link href="" >Configurações</Link>
         </div>
-        <div className="flex items-center text-[#6A7D8B] mt-[325px] text-[16px]">
-          <SignOut size={16} className="mr-4" />
-          <Link href="" >Sair</Link>
-        </div>
+        {session &&
+          <div className="flex items-center text-[#6A7D8B] mt-[325px] text-[16px]" onClick={() => signOut()}>
+            <SignOut size={16} className="mr-4" />
+            <Link href="" >Sair</Link>
+          </div>
+        }
       </div>
     </div>
   )

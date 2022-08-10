@@ -11,7 +11,7 @@ import { Tenant } from "../../types/tenant";
 
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
-
+ 
   useEffect(() => {
     setTenant(data.tenant);
   });
