@@ -1,14 +1,20 @@
 import { NextApiHandler } from "next";
 import prisma from "../../libs/prisma";
 
-const handleGet: NextApiHandler = async (req, res) => {
-  const user = await prisma.user.findMany()
 
-  res.json(user)
-}
+const handler: NextApiHandler = async (req, res) => {
+  const { email, password } = req.body;
 
-const handler: NextApiHandler = (req, res) => {
-  handleGet(req, res)
+  const user = await prisma.user.findFirst({
+    where: {
+      email,
+      password
+    }
+  })
+
+  if(user) {
+    res.json(user)
+  }
 }
 
 export default handler;
