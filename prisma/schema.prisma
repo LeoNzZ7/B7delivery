@@ -15,8 +15,8 @@ model User {
   email          String          @unique
   name           String
   password       String
+  
   User_Addresses User_Addresses?
-  Orders         Orders?
 
   @@map("users")
 }
@@ -32,113 +32,7 @@ model User_Addresses {
   state         String
   complement    String?
 
-  user     User     @relation(fields: [id_user], references: [id])
-  district District @relation(fields: [id_district], references: [id])
-  Orders   Orders?
+  user   User    @relation(fields: [id_user], references: [id])
 
   @@map("users_addresses")
-}
-
-model District {
-  id             Int              @id @default(autoincrement())
-  id_tenant      Int              @unique
-  name           String
-  price          Float
-  User_Addresses User_Addresses[]
-
-  tenants Tenants @relation(fields: [id_tenant], references: [id])
-
-  @@map("districts")
-}
-
-model Tenants {
-  id         Int        @id @default(autoincrement())
-  slug       String     @unique
-  status     String
-  name       String
-  main_color String
-  email      String     @unique
-  password   String
-  district   District[]
-  Orders     Orders?
-  Product    Product?
-
-  @@map("tenants")
-}
-
-model Orders {
-  id                    Int      @id @default(autoincrement())
-  id_user               Int      @unique
-  id_tenant             Int      @unique
-  id_address            Int      @unique
-  payment_method        Float
-  payment_method_return Float
-  delivery_price        Int
-  subtotal              Float
-  order_date            DateTime @default(now())
-  status                String
-
-  user            User            @relation(fields: [id_user], references: [id])
-  tenants         Tenants         @relation(fields: [id_tenant], references: [id])
-  address         User_Addresses  @relation(fields: [id_address], references: [id])
-  order_product   Order_product   @relation(fields: [id], references: [id_orders])
-  orders_statused Orders_statused @relation(fields: [id], references: [id_order])
-
-  @@map("orders")
-}
-
-model Orders_statused {
-  id        Int      @id @default(autoincrement())
-  id_order  Int      @unique
-  status    String
-  createdAt DateTime @default(now())
-  canceled String
-  
-  Orders    Orders[]
-
-  @@map("orders_statused")
-}
-
-model Order_product {
-  id            Int   @id @default(autoincrement())
-  id_orders     Int   @unique
-  id_product    Int   @unique
-  product_price Float
-  quantity      Int
-
-  Orders  Orders[]
-  Product Product[]
-
-  @@map("order_products")
-}
-
-model Product {
-  id          Int    @id @default(autoincrement())
-  id_tenant   Int    @unique
-  id_category Int    @unique
-  name        String
-  img         String
-  price       Float
-  description String
-
-  tenant        Tenants       @relation(fields: [id_tenant], references: [id])
-  order_product Order_product @relation(fields: [id], references: [id_product])
-
-  @@map("products")
-}
-
-model Categories {
-  id        Int    @id @default(autoincrement())
-  id_tenant Int    @unique
-  name      String
-
-  @@map("categories")
-}
-
-model Banners {
-  id        Int    @id @default(autoincrement())
-  id_tenant Int    @unique
-  img       String
-
-  @@map("banners")
 }
