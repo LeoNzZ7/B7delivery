@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  id             Int             @id @default(autoincrement())
-  email          String          @unique
-  name           String
-  password       String
-  
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  password String
+
   User_Addresses User_Addresses?
+  Tenant         Tenant?
 
   @@map("users")
 }
@@ -32,7 +33,56 @@ model User_Addresses {
   state         String
   complement    String?
 
-  user   User    @relation(fields: [id_user], references: [id])
+  user User @relation(fields: [id_user], references: [id])
 
   @@map("users_addresses")
+}
+
+model Tenant {
+  id          Int    @id @default(autoincrement())
+  id_user     Int    @unique
+  id_products Int    @unique
+  name        String @unique
+  slug        String @unique
+  mainColor   String
+  secondColor String
+
+  user    User    @relation(fields: [id_user], references: [id])
+  product Product @relation(fields: [id_products], references: [id])
+  Orders  Orders?
+
+  @@map("tenants")
+}
+
+model Product {
+  id          Int    @id @default(autoincrement())
+  id_tenant   Int    @unique
+  name        String 
+  price       Float
+  img         String
+  category    String
+  description String
+
+  Orders Orders?
+  Tenant Tenant?
+
+  @@map("producst")
+}
+
+model Orders {
+  id         Int      @id @default(autoincrement())
+  id_product Int      @unique
+  id_tenant  Int      @unique
+  quantity   Int
+  category   Int
+  date       DateTime @default(now())
+  price      Float
+  delivery   Float
+  subtotal   Float
+  total      Float
+
+  product Product @relation(fields: [id_product], references: [id])
+  tenant  Tenant  @relation(fields: [id_tenant], references: [id])
+
+  @@map("orders")
 }

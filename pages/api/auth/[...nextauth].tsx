@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
           }
         }
 
-        return null
+        return null;
     }})
   ]
 };
