@@ -5,7 +5,7 @@ import { Menu } from "../../components/menu";
 import { ProductItem } from "../../components/productItem";
 import { SearchInput } from "../../components/searchInput";
 import { useAppContext } from "../../contexts/app.content";
-import { useApi } from "../../libs/useApi";
+import { UseApi } from "../../libs/useApi";
 import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenant";
 
@@ -67,7 +67,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
-  const api = useApi(tenantSlug as string);
+  const api = UseApi(tenantSlug as string);
   const tenant = api.getTenant();
 
   if (!tenant) {
