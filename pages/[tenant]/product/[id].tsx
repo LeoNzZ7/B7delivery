@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Button } from "../../../components/button";
 import { Counter } from "../../../components/counter";
 import { useAppContext } from "../../../contexts/app.content";
-import { UseApi } from "../../../libs/useApi";
+import { useApi } from "../../../libs/useApi";
 import { Product } from "../../../types/product";
 import { Tenant } from "../../../types/tenant";
 
@@ -85,7 +85,7 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug, id } = context.query;
-  const api = UseApi(tenantSlug as string)
+  const api = useApi(tenantSlug as string)
 
   const tenant = api.getTenant()
   const product = api.getProduct(id as string);

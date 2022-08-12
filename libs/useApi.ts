@@ -4,7 +4,7 @@ const TemporaryOneProduct: Product[] = [
   {id: 1, image: '/temp/burguer001.png', name: 'Texas Burguer', categoryName: 'tradicional', price: 25.90, description: '2 Blends de carne de 150g, Queijo Cheddar, Bacon Caramelizado, Salada, Molho da casa, Pão brioche artesanal.' },
   {id: 2, image: '/temp/burguer001.png', name: 'Golden Burguer', categoryName: 'tradicional', price: 25.90, description: 'Delicioso burguer de picanha' }
 ]
-export const UseApi = (tenantSlug: string) => ({
+export const useApi = (tenantSlug: string) => ({
 
   getTenant: () => {
     switch (tenantSlug) {

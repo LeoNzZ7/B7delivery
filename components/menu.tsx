@@ -61,9 +61,9 @@ export const Menu = ({ openMenu, setOpenMenu }: props) => {
           <Link href="" >Configurações</Link>
         </div>
         {session &&
-          <div className="flex items-center text-[#6A7D8B] mt-[325px] text-[16px]" onClick={() => signOut()}>
+          <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
             <SignOut size={16} className="mr-4" />
-            <Link href="" >Sair</Link>
+            <span onClick={() => signOut()} >Sair</span>
           </div>
         }
       </div>

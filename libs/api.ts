@@ -10,6 +10,6 @@ export default {
       return user;
     }
 
-    return console.log("error")
+    return null;
   }
 }

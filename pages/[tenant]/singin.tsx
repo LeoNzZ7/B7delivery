@@ -7,7 +7,7 @@ import { Input } from "../../components/input";
 import { B7BurguerTitle } from "../../components/SVGS/b7BurguerTItle";
 import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
-import { UseApi } from "../../libs/useApi";
+import { useApi } from "../../libs/useApi";
 import { Tenant } from "../../types/tenant";
 
 const Login = (data: Props) => {
@@ -73,7 +73,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { tenant: tenantSlug } = context.query;
 
-  const api = UseApi(tenantSlug as string);
+  const api = useApi(tenantSlug as string);
   const tenant = api.getTenant();
 
   if (!tenant) {

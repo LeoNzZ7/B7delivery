@@ -1,6 +1,7 @@
 import nextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import api from "../../../libs/api";
+import { AuthUser } from "../../../types/authUser";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -24,7 +25,23 @@ export const authOptions: NextAuthOptions = {
 
         return null;
     }})
-  ]
+  ],
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      if(user) {
+        token.user = user;
+      }
+
+      return token;
+    },
+    session: async ({ session, token }) => {
+      if(token) {
+        session.user = token.user as AuthUser;
+      }
+      
+      return session;
+    }
+  }
 };
 
 export default nextAuth(authOptions);
