@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import { unstable_getServerSession } from "next-auth";
 import Link from "next/link";
 import { useEffect } from "react";
 import { Button } from "../../components/button";
@@ -9,6 +10,7 @@ import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
 import { useApi } from "../../libs/useApi";
 import { Tenant } from "../../types/tenant";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 const Register = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -66,6 +68,10 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await unstable_getServerSession(
+    context.req, context.res, authOptions
+  );
+  
   const { tenant: tenantSlug } = context.query;
 
   const api = useApi(tenantSlug as string);
@@ -73,7 +79,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }
-  };
+  } 
+  
+  if (session) {
+    return { redirect: { destination: `/${tenantSlug as string}`, permanent: false } }
+  }
 
   return {
     props: {

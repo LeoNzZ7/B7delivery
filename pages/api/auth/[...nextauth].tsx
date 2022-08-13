@@ -9,7 +9,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       id: 'credentials',
       credentials: {
-        email: { label: "E-mail", type: "text" },
+        email: { label: "E-mail", type: "text", value: "" },
         password: { label: "Senha", type: "password" }
       },
       authorize: async (crendentials, req) => {
@@ -28,9 +28,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     jwt: async ({ token, user }) => {
-      if(user) {
-        token.user = user;
-      }
+      if(user) token.user = user;
 
       return token;
     },

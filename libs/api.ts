@@ -9,7 +9,5 @@ export default {
     if(user) {
       return user;
     }
-
-    return null;
   }
 }

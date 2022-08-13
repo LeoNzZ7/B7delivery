@@ -1,4 +1,5 @@
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Banner } from "../../components/banner";
 import { Menu } from "../../components/menu";
@@ -25,6 +26,11 @@ const Home = (data: Props) => {
 
   return (
     <>
+      <Head>
+        <title>
+          {data.tenant.name}
+        </title>
+      </Head>
       <div className="max-w-screen-sm overflow-hidden">
         <div>
           <header className="px-6 pt-[50px] pb-[30px] bg-[#F9F9FB]">

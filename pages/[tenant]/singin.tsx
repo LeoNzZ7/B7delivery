@@ -1,27 +1,54 @@
 import { GetServerSideProps } from "next";
+import { unstable_getServerSession } from "next-auth";
+import { signIn } from "next-auth/react";
+import Head from "next/head";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/button";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
 import { B7BurguerTitle } from "../../components/SVGS/b7BurguerTItle";
 import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
+import { useUserCrendtialsContext } from "../../contexts/user.credentials";
 import { useApi } from "../../libs/useApi";
+import { AuthUser } from "../../types/authUser";
 import { Tenant } from "../../types/tenant";
+import { authOptions } from "../api/auth/[...nextauth]";
 
 const Login = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
-  
+  const { email, password} = useUserCrendtialsContext();
+
+  const router = useRouter();
+
   useEffect(() => {
     setTenant(data.tenant);
-  });
+  }); 
+
+  const handleSubmit = async () => {
+    const request = await signIn('credentials', {
+      redirect: false,
+      email, password
+    });
+
+    if(request && request.ok) {
+      if(router.query.callbackUrl) {
+        router.push(router.query.callbackUrl as string);
+      } else {
+        router.push("/")
+      }
+    } 
+
+    alert("Erro")
+  }
 
   return (
     <div>
-      <head>
+      <Head>
         <title>Login | {data.tenant.name}</title>
-      </head>
+      </Head>
       <Header />
       <div className="flex flex-col items-center justify-center p-6" >
         <div className="mb-10" > 
@@ -38,11 +65,11 @@ const Login = (data: Props) => {
           <div style={{ backgroundColor: tenant?.mainColor }} className="w-[55%] h-[3px]"></div>
           <div className="w-[22.5%] h-[3px] bg-[#F9F9FB]"></div>
         </div>
-        <div className="mt-10 w-full" >
+        <div className="mt-10 w-full">
           <Input type="email" placeholder="Digite seu email" />
           <Input type="password" placeholder="Digite sua senha" />
         </div>
-        <Button invertColors={false} buttonText="Entrar" />
+        <Button invertColors={false} buttonText="Entrar" handleFunction={handleSubmit} />
         <div className="flex items-center my-10" >
           <span className="text-[16px] mr-2" >
             Esqueceu a senha?
@@ -71,14 +98,22 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { tenant: tenantSlug } = context.query;
+  const { tenant: tenantSlug } = await context.query;
 
-  const api = useApi(tenantSlug as string);
-  const tenant = api.getTenant();
+  const session = await unstable_getServerSession(
+    context.req, context.res, authOptions
+  );
+
+  const api = await useApi(tenantSlug as string);
+  const tenant = await api.getTenant();
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }
-  };
+  }
+  
+  if (session) {
+    return { redirect: { destination: `/${tenantSlug as string}`, permanent: false } }
+  }
 
   return {
     props: {

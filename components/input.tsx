@@ -1,6 +1,7 @@
 import { Eye, EyeSlash } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppContext } from "../contexts/app.content";
+import { useUserCrendtialsContext } from "../contexts/user.credentials";
 
 type Props = {
   type: "text" | "email" | "password"; 
@@ -9,12 +10,12 @@ type Props = {
 
 export const Input = ({ type, placeholder }: Props) => {
   const { tenant } = useAppContext();
+  const { email, password, setEmail, setPassword } = useUserCrendtialsContext();
+
   const [focused, setfocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   return (
     <div className="flex mt-5 items-center">

@@ -2,13 +2,14 @@ import { ClipboardText, ForkKnife, Gear, Heart, ShoppingBagOpen, SignOut, X } fr
 import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useAppContext } from "../contexts/app.content";
+import { useRouter } from "next/router";
 
 type props = {
   openMenu: boolean;
   setOpenMenu: (isOpenMenu: boolean) => void;
 }
 
-export const Menu = ({ openMenu, setOpenMenu }: props) => {
+export const Menu = ({ openMenu, setOpenMenu,  }: props) => {
   const { tenant } = useAppContext();
   const { data: session } = useSession();
 
@@ -17,12 +18,13 @@ export const Menu = ({ openMenu, setOpenMenu }: props) => {
       {`fixed top-0 px-[30px] ${openMenu ? "left-0" : "left-1000"} ${openMenu ? "translate-x-0" : "translate-x-[1000px]"} bg-white h-screen w-screen transition-menu`}>
       <div className="flex justify-between mt-[56px] pl-[30px]">
         {!session &&
-          <button
-            className="w-[72%] h-[56px] rounded-md font-bold text-white"
-            onClick={() => signIn()}
-            style={{ backgroundColor: tenant?.mainColor as string }} >
-            Fazer Login
-          </button>
+          <Link href={`${tenant?.slug as string}/singin`}>
+            <button
+              className="w-[72%] h-[56px] rounded-md font-bold text-white"
+              style={{ backgroundColor: tenant?.mainColor as string }} >
+              Fazer Login
+            </button>
+          </Link>
         }
         {session &&
           <div>

@@ -4,11 +4,11 @@ import { useAppContext } from "../contexts/app.content";
 type Props = {
   invertColors: boolean;
   buttonText: string;
-  function?: () => void;
+  handleFunction?: () => void;
   link?: string;
 }
 
-export const Button = ({ invertColors, buttonText, link }: Props) => {
+export const Button = ({ invertColors, buttonText, handleFunction, link }: Props) => {
   const { tenant } = useAppContext();
 
   if (link) {
@@ -26,6 +26,7 @@ export const Button = ({ invertColors, buttonText, link }: Props) => {
 
   return (
     <button
+      onClick={handleFunction}
       className='w-full h-[60px] border-[1px] rounded mt-5'
       style={{ backgroundColor: invertColors ? '#FFF' : tenant?.mainColor, borderColor: invertColors ? tenant?.mainColor : '#FFF', color: invertColors ? tenant?.mainColor : '#FFF' }}
     >
