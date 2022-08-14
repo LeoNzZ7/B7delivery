@@ -10,12 +10,10 @@ type Props = {
 
 export const Input = ({ type, placeholder }: Props) => {
   const { tenant } = useAppContext();
-  const { email, password, setEmail, setPassword } = useUserCrendtialsContext();
+  const { name, email, password, setName, setEmail, setPassword } = useUserCrendtialsContext();
 
   const [focused, setfocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  const [name, setName] = useState('');
 
   return (
     <div className="flex mt-5 items-center">
@@ -28,7 +26,7 @@ export const Input = ({ type, placeholder }: Props) => {
           className='w-full h-[60px] mt-5 rounded focus:ring-0 bg-[#F9F9FB] transition-colors'
           placeholder={placeholder}
           value={name}
-          onChange={e => setEmail(e.target.value)}
+          onChange={e => setName(e.target.value)}
         />
       }
       {type === 'email' &&

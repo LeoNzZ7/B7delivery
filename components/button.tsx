@@ -15,7 +15,7 @@ export const Button = ({ invertColors, buttonText, handleFunction, link }: Props
     return (
       <Link href={link} >
         <span
-          className='w-full h-[60px] border-[1px] rounded mt-5'
+          className='w-full h-[60px] border-[1px] rounded mt-5  flex items-center justify-center font-semibold'
           style={{ backgroundColor: invertColors ? '#FFF' : tenant?.mainColor, borderColor: invertColors ? tenant?.mainColor : '#FFF', color: invertColors ? tenant?.mainColor : '#FFF' }}
         >
           {buttonText}
@@ -27,7 +27,7 @@ export const Button = ({ invertColors, buttonText, handleFunction, link }: Props
   return (
     <button
       onClick={handleFunction}
-      className='w-full h-[60px] border-[1px] rounded mt-5'
+      className='w-full h-[60px] border-[1px] rounded mt-5 flex items-center justify-center font-semibold'
       style={{ backgroundColor: invertColors ? '#FFF' : tenant?.mainColor, borderColor: invertColors ? tenant?.mainColor : '#FFF', color: invertColors ? tenant?.mainColor : '#FFF' }}
     >
       {buttonText}

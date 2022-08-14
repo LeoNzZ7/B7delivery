@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "../../components/button";
 import { Header } from "../../components/header";
 import { Input } from "../../components/input";
@@ -13,13 +13,12 @@ import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
 import { useUserCrendtialsContext } from "../../contexts/user.credentials";
 import { useApi } from "../../libs/useApi";
-import { AuthUser } from "../../types/authUser";
 import { Tenant } from "../../types/tenant";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 const Login = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
-  const { email, password} = useUserCrendtialsContext();
+  const { email, password, setEmail, setPassword} = useUserCrendtialsContext();
 
   const router = useRouter();
 
@@ -33,15 +32,16 @@ const Login = (data: Props) => {
       email, password
     });
 
+    setEmail("");
+    setPassword("");
+
     if(request && request.ok) {
       if(router.query.callbackUrl) {
         router.push(router.query.callbackUrl as string);
       } else {
-        router.push("/")
+        router.back();
       }
     } 
-
-    alert("Erro")
   }
 
   return (
