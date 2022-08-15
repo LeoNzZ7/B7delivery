@@ -1,7 +1,15 @@
-import { error } from "console";
 import { NextApiResponse } from "next";
+import prisma from "./prisma";
 
 export default {
+  getUsers: async () => {
+    const user = await prisma?.user.findMany();
+
+    if(user) {
+      return user;
+    }
+  },
+
   getUserByEmail: async (email: string) => {
     const user = await prisma?.user.findFirst({
       where: {

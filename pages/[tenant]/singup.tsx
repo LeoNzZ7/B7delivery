@@ -1,6 +1,9 @@
+import axios from "axios";
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Button } from "../../components/button";
 import { Header } from "../../components/header";
@@ -8,6 +11,7 @@ import { Input } from "../../components/input";
 import { B7BurguerTitle } from "../../components/SVGS/b7BurguerTItle";
 import { B7PizzaTitle } from "../../components/SVGS/b7PizzaTitle";
 import { useAppContext } from "../../contexts/app.content";
+import { useUserCrendtialsContext } from "../../contexts/user.credentials";
 import { useApi } from "../../libs/useApi";
 import { Tenant } from "../../types/tenant";
 import { authOptions } from "../api/auth/[...nextauth]";
@@ -15,9 +19,37 @@ import { authOptions } from "../api/auth/[...nextauth]";
 const Register = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
+  const { name, email, password, setName, setEmail, setPassword } = useUserCrendtialsContext();
+  const router = useRouter();
+
   useEffect(() => {
     setTenant(data.tenant);
   });
+
+  const handleCreateAccount = async () => {
+    const newUser = await axios.post("/api", {
+      name, email, password
+    })
+
+    if (newUser.status === 200) {
+      const request = await signIn('credentials', {
+        redirect: false,
+        email, password
+      });
+
+      setName("");
+      setEmail("");
+      setPassword("");
+
+      if (request && request.ok) {
+        if (router.query.callbackUrl) {
+          router.push(router.query.callbackUrl as string);
+        } else {
+          router.back();
+        };
+      };
+    };
+  };
 
   return (
     <div>
@@ -45,7 +77,7 @@ const Register = (data: Props) => {
           <Input type="email" placeholder="Digite seu email" />
           <Input type="password" placeholder="Digite sua senha" />
         </div>
-        <Button invertColors={false} buttonText="Entrar" />
+        <Button invertColors={false} buttonText="Entrar" handleFunction={handleCreateAccount} />
         <div className="flex items-center my-10">
           <span className="text-[16px] mr-2" >
             Já tem cadastro?
@@ -71,7 +103,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await unstable_getServerSession(
     context.req, context.res, authOptions
   );
-  
+
   const { tenant: tenantSlug } = context.query;
 
   const api = useApi(tenantSlug as string);
@@ -79,8 +111,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }
-  } 
-  
+  }
+
   if (session) {
     return { redirect: { destination: `/${tenantSlug as string}`, permanent: false } }
   }
