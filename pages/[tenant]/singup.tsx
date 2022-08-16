@@ -27,7 +27,7 @@ const Register = (data: Props) => {
   });
 
   const handleCreateAccount = async () => {
-    const newUser = await axios.post("/api", {
+    const newUser = await axios.post("/api/users", {
       name, email, password
     })
 

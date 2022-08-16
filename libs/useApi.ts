@@ -1,17 +1,17 @@
 import { Product } from "../types/product";
 
 const TemporaryOneProduct: Product[] = [
-  {id: 1, image: '/temp/burguer001.png', name: 'Texas Burguer', categoryName: 'tradicional', price: 25.90, description: '2 Blends de carne de 150g, Queijo Cheddar, Bacon Caramelizado, Salada, Molho da casa, Pão brioche artesanal.' },
-  {id: 2, image: '/temp/burguer001.png', name: 'Golden Burguer', categoryName: 'tradicional', price: 25.90, description: 'Delicioso burguer de picanha' }
+  {id: 1, image: '/images/B7delivery/img - Golden Burger.png', name: 'Texas Burger', categoryName: 'tradicional', price: 25.90, description: '2 Blends de carne de 150g, Queijo Cheddar, Bacon Caramelizado, Salada, Molho da casa, Pão brioche artesanal.' },
+  {id: 2, image: '/images/B7delivery/img - Monster Burger.png', name: 'Golden Burger', categoryName: 'tradicional', price: 25.90, description: 'Delicioso burguer de picanha' }
 ]
 export const useApi = (tenantSlug: string) => ({
 
   getTenant: () => {
     switch (tenantSlug) {
-      case 'b7burguer':
+      case 'b7burger':
         return {
-          slug: 'b7burguer',
-          name: 'B7burguer',
+          slug: 'b7burger',
+          name: 'B7burger',
           mainColor: '#FB9400',
           secondColor: '#FFF9F2'
         }

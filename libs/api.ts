@@ -2,6 +2,16 @@ import { NextApiResponse } from "next";
 import prisma from "./prisma";
 
 export default {
+  getTenant: async (slug: string) => {
+    return await prisma.tenant.findFirst({
+      where: {  
+        slug
+      }
+    })
+
+    
+  },
+  
   getUsers: async () => {
     const user = await prisma?.user.findMany();
 

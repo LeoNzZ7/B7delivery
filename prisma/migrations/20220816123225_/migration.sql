@@ -29,7 +29,7 @@ CREATE TABLE "tenants" (
     "slug" TEXT NOT NULL,
     "mainColor" TEXT NOT NULL,
     "secondColor" TEXT NOT NULL,
-    CONSTRAINT "tenants_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "tenants_id_products_fkey" FOREIGN KEY ("id_products") REFERENCES "producst" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -40,8 +40,23 @@ CREATE TABLE "producst" (
     "price" REAL NOT NULL,
     "img" TEXT NOT NULL,
     "category" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    CONSTRAINT "producst_id_fkey" FOREIGN KEY ("id") REFERENCES "tenants" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "description" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "orders" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id_product" INTEGER NOT NULL,
+    "id_tenant" INTEGER NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "category" INTEGER NOT NULL,
+    "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "price" REAL NOT NULL,
+    "delivery" REAL NOT NULL,
+    "subtotal" REAL NOT NULL,
+    "total" REAL NOT NULL,
+    CONSTRAINT "orders_id_product_fkey" FOREIGN KEY ("id_product") REFERENCES "producst" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "orders_id_tenant_fkey" FOREIGN KEY ("id_tenant") REFERENCES "tenants" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -64,3 +79,9 @@ CREATE UNIQUE INDEX "tenants_slug_key" ON "tenants"("slug");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "producst_id_tenant_key" ON "producst"("id_tenant");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "orders_id_product_key" ON "orders"("id_product");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "orders_id_tenant_key" ON "orders"("id_tenant");

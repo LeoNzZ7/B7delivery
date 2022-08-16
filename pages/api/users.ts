@@ -3,7 +3,7 @@ import api from "../../libs/api";
 
 const handleGet: NextApiHandler = async (req, res) => {
   const users = await api.getUsers();
-
+  
   if(users) {
     res.json(users)
   };
