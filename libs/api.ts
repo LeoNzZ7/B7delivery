@@ -8,8 +8,6 @@ export default {
         slug
       }
     })
-
-    
   },
   
   getUsers: async () => {

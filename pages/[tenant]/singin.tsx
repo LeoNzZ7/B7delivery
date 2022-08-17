@@ -52,7 +52,7 @@ const Login = (data: Props) => {
       <Header />
       <div className="flex flex-col items-center justify-center p-6" >
         <div className="mb-10" > 
-          {data.tenant.slug === 'b7burguer' &&
+          {data.tenant.slug === 'b7burger' &&
             <B7BurguerTitle />
           }
           {data.tenant.slug === 'b7pizza' &&

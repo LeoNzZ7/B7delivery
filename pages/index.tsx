@@ -7,7 +7,7 @@ const Home = () => {
       <Link href="/b7burger">B7burger</Link>
       <Link href="/b7pizza">B7pizza</Link>
     </div>
-  );
+  )
 }
 
 export default Home;

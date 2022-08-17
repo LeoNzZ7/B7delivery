@@ -1,44 +1,53 @@
+import prisma from "./prisma"
 import { Product } from "../types/product";
 
 const TemporaryOneProduct: Product[] = [
-  {id: 1, image: '/images/B7delivery/img - Golden Burger.png', name: 'Texas Burger', categoryName: 'tradicional', price: 25.90, description: '2 Blends de carne de 150g, Queijo Cheddar, Bacon Caramelizado, Salada, Molho da casa, Pão brioche artesanal.' },
-  {id: 2, image: '/images/B7delivery/img - Monster Burger.png', name: 'Golden Burger', categoryName: 'tradicional', price: 25.90, description: 'Delicioso burguer de picanha' }
+  {id: 1, img: '/images/B7delivery/img - Golden Burger.png', name: 'Texas Burger', categoryName: 'tradicional', price: 25.90, description: '2 Blends de carne de 150g, Queijo Cheddar, Bacon Caramelizado, Salada, Molho da casa, Pão brioche artesanal.' },
+  {id: 2, img: '/images/B7delivery/img - Monster Burger.png', name: 'Golden Burger', categoryName: 'tradicional', price: 25.90, description: 'Delicioso burguer de picanha' }
 ]
-export const useApi = (tenantSlug: string) => ({
+export const useApi = async (tenantSlug: string) => ({
 
-  getTenant: () => {
-    switch (tenantSlug) {
-      case 'b7burger':
-        return {
-          slug: 'b7burger',
-          name: 'B7burger',
-          mainColor: '#FB9400',
-          secondColor: '#FFF9F2'
-        }
-        break;
-
-      case 'b7pizza':
-        return {
-          slug: 'b7pizza',
-          name: 'B7pizza',
-          mainColor: '#6AB70A',
-          secondColor: '#E0E0E0'
-        }
-        break;
-
-        dafault: return false;
-    }
-  },
-
-  getAllProducts: () => {
-    return TemporaryOneProduct;
-  },
-
-  getProduct: (id: string) => {
-    for(let i in TemporaryOneProduct) {
-      if(parseInt(id) === TemporaryOneProduct[i].id) {
-        return TemporaryOneProduct[i];
+  getTenant: async () => {
+    const tenant = await prisma?.tenant.findFirst({
+      where: {
+        slug: tenantSlug
       }
+    })
+
+    if(tenant) {
+      return tenant;
+    } 
+
+    return null;
+  },
+
+  getAllProducts: async () => {
+    const products = await prisma?.product.findMany({
+      where: {
+        tenant: {
+          slug: tenantSlug
+        }
+      }
+    });
+
+    if(products) {
+      return products;
+    };
+
+    return null;
+  },
+
+  getProduct: async (id: string) => {
+    const product = await prisma.product.findFirst({
+      where: {
+        id: parseInt(id)
+      }
+    }) 
+
+    if(product) {
+      return product;
     }
+
+    return null;
   }
 });

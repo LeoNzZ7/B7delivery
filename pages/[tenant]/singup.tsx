@@ -59,7 +59,7 @@ const Register = (data: Props) => {
       <Header />
       <div className="flex flex-col items-center justify-center p-6" >
         <div className="mb-10" >
-          {data.tenant.slug === 'b7burguer' &&
+          {data.tenant.slug === 'b7burger' &&
             <B7BurguerTitle />
           }
           {data.tenant.slug === 'b7pizza' &&
@@ -104,10 +104,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     context.req, context.res, authOptions
   );
 
-  const { tenant: tenantSlug } = context.query;
+  const { tenant: tenantSlug } =  await context.query;
 
-  const api = useApi(tenantSlug as string);
-  const tenant = api.getTenant();
+  const api = await useApi(tenantSlug as string);
+  const tenant = await api.getTenant()
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }

@@ -82,10 +82,10 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { tenant: tenantSlug } = context.query;
+  const { tenant: tenantSlug } = await context.query;
   
-  const api = useApi(tenantSlug as string);
-  const tenant = api.getTenant();
+  const api = await useApi(tenantSlug as string);
+  const tenant = await api.getTenant();
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }

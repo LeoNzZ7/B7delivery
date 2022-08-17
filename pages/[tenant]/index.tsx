@@ -12,10 +12,10 @@ import { Tenant } from "../../types/tenant";
 
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
- 
+
   useEffect(() => {
     setTenant(data.tenant);
-  });
+  }, []);
 
   const [products, setProducts] = useState<Product[]>(data.products);
   const [openMenu, setOpenMenu] = useState(false);
@@ -72,15 +72,15 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { tenant: tenantSlug } = context.query;
-  const api = useApi(tenantSlug as string);
-  const tenant = api.getTenant();
+  const { tenant: tenantSlug } = await context.query;
+  const api = await useApi(tenantSlug as string);
+  const tenant = await api.getTenant();
 
   if (!tenant) {
     return { redirect: { destination: '/', permanent: false } }
   };
 
-  const products = api.getAllProducts();
+  const products = await api.getAllProducts();
 
   return {
     props: {

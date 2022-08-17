@@ -45,14 +45,14 @@ model Tenant {
   secondColor String
 
   Orders  Orders?
-  Product Product?
+  Product Product[]
 
   @@map("tenants")
 }
 
 model Product {
   id          Int    @id @default(autoincrement())
-  id_tenant   Int    @unique
+  id_tenant   Int    
   name        String
   price       Float
   img         String

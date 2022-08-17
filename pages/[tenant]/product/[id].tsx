@@ -28,7 +28,7 @@ const Product = (data: Props) => {
         <div className="px-9 mt-[70px]">
           <div className="flex justify-between" >
             <div 
-            style={{ backgroundColor: tenant?.slug === "b7burguer" ? "#F08E00" : "#62A70D" }} 
+            style={{ backgroundColor: tenant?.slug === "b7burger" ? "#F08E00" : "#62A70D" }} 
             className="w-12 h-12 flex justify-center items-center rounded-md" >
               <button onClick={() => router.back()} >
                 <ArrowLeft weight="bold" size={24} className='w-6 text-white' />
@@ -39,13 +39,13 @@ const Product = (data: Props) => {
             </div>
             <div
               onClick={() => alert("Funcionalidade em desenvolvimento")}
-              style={{ backgroundColor: tenant?.slug === "b7burguer" ? "#F08E00" : "#62A70D" }} 
+              style={{ backgroundColor: tenant?.slug === "b7burger" ? "#F08E00" : "#62A70D" }} 
               className="w-12 h-12 flex justify-center items-center rounded-md" >
               <Heart size={24} className='w-6 text-white' />
             </div>
           </div>
           <div className="flex justify-center" >
-            <img className="w-auto h-[350px]" src={data.product.image} alt="" />
+            <img className="w-auto h-[350px]" src={data.product.img} alt="" />
           </div>
         </div>
         <div className="px-5 mt-[-20px]">
@@ -84,11 +84,11 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { tenant: tenantSlug, id } = context.query;
-  const api = useApi(tenantSlug as string)
+  const { tenant: tenantSlug, id } = await context.query;
+  const api = await useApi(tenantSlug as string)
 
-  const tenant = api.getTenant()
-  const product = api.getProduct(id as string);
+  const tenant = await api.getTenant()
+  const product = await api.getProduct(id as string);
 
   return {
     props: {
