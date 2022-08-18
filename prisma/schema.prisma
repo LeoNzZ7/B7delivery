@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,7 +14,8 @@ model User {
   password String
 
   User_Addresses User_Addresses?
-  Orders         Orders?
+  Bag            Bag?
+  Orders         Orders[]
 
   @@map("users")
 }
@@ -41,46 +39,66 @@ model Tenant {
   id          Int    @id @default(autoincrement())
   name        String @unique
   slug        String @unique
-  mainColor   String
-  secondColor String
+  mainColor   String @unique
+  secondColor String @unique
 
-  Orders  Orders?
-  Product Product[]
+  bag     Bag[]
+  product Product[]
+  Banners Banners[]
+  Orders  Orders[]
 
   @@map("tenants")
 }
 
 model Product {
-  id          Int    @id @default(autoincrement())
-  id_tenant   Int    
+  id          Int     @id @default(autoincrement())
+  id_tenant   Int
   name        String
-  price       Float
-  img         String
+  image       String
   category    String
-  description String
+  quantity    Int
+  price       Float
+  description String?
 
-  Orders Orders?
-  tenant Tenant  @relation(fields: [id_tenant], references: [id])
+  tenant Tenant @relation(fields: [id_tenant], references: [id])
+  Bag    Bag[]
 
-  @@map("producst")
+  @@map("Products")
+}
+
+model Bag {
+  id          Int    @id @default(autoincrement())
+  id_products Int
+  id_user     Int    @unique
+  id_tenant   Int
+  delivery    Int
+
+  user    User    @relation(fields: [id_user], references: [id])
+  tenant  Tenant  @relation(fields: [id_tenant], references: [id])
+  Product Product @relation(fields: [id_products], references: [id])
+
+  @@map("bags")
 }
 
 model Orders {
-  id         Int      @id @default(autoincrement())
-  id_user    Int      @unique
-  id_product Int      @unique
-  id_tenant  Int      @unique
-  quantity   Int
-  category   Int
-  date       DateTime @default(now())
-  price      Float
-  delivery   Float
-  subtotal   Float
-  total      Float
+  id          Int    @id @default(autoincrement())
+  id_user     Int    @unique
+  id_tenant   Int
+  id_products Int
+  subtotal    Int
+  status      String
+  total       Int
 
-  product Product @relation(fields: [id_product], references: [id])
-  tenant  Tenant  @relation(fields: [id_tenant], references: [id])
-  user    User    @relation(fields: [id_user], references: [id])
+  Tenant Tenant @relation(fields: [id_tenant], references: [id])
+  user   User   @relation(fields: [id_user], references: [id])
+}
 
-  @@map("orders")
+model Banners {
+  id        Int    @id @default(autoincrement())
+  id_tenant Int
+  image     String
+
+  tenant Tenant @relation(fields: [id_tenant], references: [id])
+
+  @@map("banners")
 }

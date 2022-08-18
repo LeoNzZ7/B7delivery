@@ -17,10 +17,10 @@ export const Counter = () => {
   }
 
   return(
-    <div className="flex w-[140px] justify-around items-center mt-3 h-12"> 
+    <div className="flex w-[140px] justify-around items-center mt-3 h-12 border border-[#EEE] rounded-md"> 
       <button 
       className=
-        {`bg-[#F2F4F5] h-full flex-1 font-semibold text-[24px] rounded-l-md text-[#96A3AB] ${tenant?.slug === 'b7burger' ? 'hover:bg-[#FB9400]' : 'hover:bg-[#6AB70A]'}`}
+        {`bg-[#F2F4F5] h-full flex-1 font-semibold text-[24px] rounded-l-md text-[#96A3AB] hover:text-white  ${tenant?.slug === 'b7burger' ? 'hover:bg-[#FB9400]' : 'hover:bg-[#6AB70A]'}`}
       onClick={handleCountersubtract}
       >-</button>
       <div style={{ color: tenant?.mainColor }} 
@@ -32,7 +32,7 @@ export const Counter = () => {
       </div>
       <button 
       className=
-        {`bg-[#F2F4F5] h-full flex-1 font-semibold text-[24px] rounded-r-md text-[#96A3AB] ${tenant?.slug === 'b7burger' ? 'hover:bg-[#FB9400]' : 'hover:bg-[#6AB70A]'}`}
+        {`bg-[#F2F4F5] h-full flex-1 font-semibold text-[24px] rounded-r-md text-[#96A3AB] hover:text-white ${tenant?.slug === 'b7burger' ? 'hover:bg-[#FB9400]' : 'hover:bg-[#6AB70A]'}`}
       onClick={handleCounterSum}
       >+</button>
     </div>

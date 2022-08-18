@@ -45,7 +45,7 @@ const Product = (data: Props) => {
             </div>
           </div>
           <div className="flex justify-center" >
-            <img className="w-auto h-[350px]" src={data.product.img} alt="" />
+            <img className="w-auto h-[350px]" src={data.product.image} alt="" />
           </div>
         </div>
         <div className="px-5 mt-[-20px]">

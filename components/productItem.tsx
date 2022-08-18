@@ -15,7 +15,7 @@ export const ProductItem = ({ data }: Props) => {
         <div style={{ backgroundColor: tenant?.secondColor }} className={`h-[80px] rounded-t-xl`}></div>
         <div className="h-[110px] flex flex-col px-2 rounded-b-xl drop-shadow-xl bg-white">
           <div className="flex justify-center items-center h-[50px]"> 
-            <img src={data.img} className="w-[70%] h-auto mt-[-75px]"  alt=""/>
+            <img src={data.image} className="w-[70%] h-auto mt-[-75px]"  alt=""/>
           </div>
           <span className="text-[8px] font-bold text-[#1B1B1B]">{data.categoryName}</span>
           <h1 className="font-extrabold text-[18px] text-[#1B1B1B]">{data.name}</h1>
