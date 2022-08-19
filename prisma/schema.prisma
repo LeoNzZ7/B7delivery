@@ -30,7 +30,8 @@ model User_Addresses {
   state         String
   complement    String?
 
-  user User @relation(fields: [id_user], references: [id])
+  user   User     @relation(fields: [id_user], references: [id])
+  Orders Orders[]
 
   @@map("users_addresses")
 }
@@ -50,49 +51,6 @@ model Tenant {
   @@map("tenants")
 }
 
-model Product {
-  id          Int     @id @default(autoincrement())
-  id_tenant   Int
-  name        String
-  image       String
-  category    String
-  quantity    Int
-  price       Float
-  description String?
-
-  tenant Tenant @relation(fields: [id_tenant], references: [id])
-  Bag    Bag[]
-
-  @@map("Products")
-}
-
-model Bag {
-  id          Int    @id @default(autoincrement())
-  id_products Int
-  id_user     Int    @unique
-  id_tenant   Int
-  delivery    Int
-
-  user    User    @relation(fields: [id_user], references: [id])
-  tenant  Tenant  @relation(fields: [id_tenant], references: [id])
-  Product Product @relation(fields: [id_products], references: [id])
-
-  @@map("bags")
-}
-
-model Orders {
-  id          Int    @id @default(autoincrement())
-  id_user     Int    @unique
-  id_tenant   Int
-  id_products Int
-  subtotal    Int
-  status      String
-  total       Int
-
-  Tenant Tenant @relation(fields: [id_tenant], references: [id])
-  user   User   @relation(fields: [id_user], references: [id])
-}
-
 model Banners {
   id        Int    @id @default(autoincrement())
   id_tenant Int
@@ -101,4 +59,65 @@ model Banners {
   tenant Tenant @relation(fields: [id_tenant], references: [id])
 
   @@map("banners")
+}
+
+model Product {
+  id          Int     @id @default(autoincrement())
+  id_tenant   Int
+  id_bag      Int?
+  name        String
+  image       String
+  category    String
+  quantity    Int
+  price       Float
+  description String?
+
+  bag    Bag?    @relation(fields: [id_bag], references: [id])
+  tenant Tenant @relation(fields: [id_tenant], references: [id])
+
+  @@map("Products")
+}
+
+model Bag {
+  id        Int   @id @default(autoincrement())
+  id_user   Int   @unique
+  id_tenant Int
+  delivery  Float
+
+  user    User      @relation(fields: [id_user], references: [id])
+  tenant  Tenant    @relation(fields: [id_tenant], references: [id])
+  product Product[]
+
+  @@map("bags")
+}
+
+model Orders {
+  id                   Int    @id @default(autoincrement())
+  id_user              Int    @unique
+  id_tenant            Int
+  id_address           Int
+  payment_method       String
+  payment_money_return Float
+  subtotal             Float
+  status               String
+  total                Float
+
+  Address User_Addresses @relation(fields: [id_address], references: [id])
+  Tenant  Tenant         @relation(fields: [id_tenant], references: [id])
+  User    User           @relation(fields: [id_user], references: [id])
+}
+
+model order_product {
+  id              Int   @id @default(autoincrement())
+  id_order        Int
+  id_product      Int
+  products_prices Float
+  quantity        Int
+}
+
+model order_statues {
+  id         Int      @id @default(autoincrement())
+  id_order   Int
+  status     String
+  created_at DateTime @default(now())
 }
