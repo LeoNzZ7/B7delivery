@@ -40,25 +40,27 @@ CREATE TABLE "banners" (
 CREATE TABLE "Products" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "id_tenant" INTEGER NOT NULL,
+    "id_bag" INTEGER,
+    "order" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
     "image" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
     "price" REAL NOT NULL,
     "description" TEXT,
-    CONSTRAINT "Products_id_tenant_fkey" FOREIGN KEY ("id_tenant") REFERENCES "tenants" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Products_id_bag_fkey" FOREIGN KEY ("id_bag") REFERENCES "bags" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+    CONSTRAINT "Products_id_tenant_fkey" FOREIGN KEY ("id_tenant") REFERENCES "tenants" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Products_order_fkey" FOREIGN KEY ("order") REFERENCES "order_product" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
 CREATE TABLE "bags" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "id_products" INTEGER NOT NULL,
     "id_user" INTEGER NOT NULL,
     "id_tenant" INTEGER NOT NULL,
     "delivery" REAL NOT NULL,
     CONSTRAINT "bags_id_user_fkey" FOREIGN KEY ("id_user") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "bags_id_tenant_fkey" FOREIGN KEY ("id_tenant") REFERENCES "tenants" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "bags_id_products_fkey" FOREIGN KEY ("id_products") REFERENCES "Products" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "bags_id_tenant_fkey" FOREIGN KEY ("id_tenant") REFERENCES "tenants" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -81,9 +83,9 @@ CREATE TABLE "Orders" (
 CREATE TABLE "order_product" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "id_order" INTEGER NOT NULL,
-    "id_product" INTEGER NOT NULL,
     "products_prices" REAL NOT NULL,
-    "quantity" INTEGER NOT NULL
+    "quantity" INTEGER NOT NULL,
+    CONSTRAINT "order_product_id_order_fkey" FOREIGN KEY ("id_order") REFERENCES "Orders" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -91,7 +93,8 @@ CREATE TABLE "order_statues" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "id_order" INTEGER NOT NULL,
     "status" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "order_statues_id_order_fkey" FOREIGN KEY ("id_order") REFERENCES "Orders" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex

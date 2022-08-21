@@ -65,6 +65,7 @@ model Product {
   id          Int     @id @default(autoincrement())
   id_tenant   Int
   id_bag      Int?
+  order       Int
   name        String
   image       String
   category    String
@@ -72,8 +73,9 @@ model Product {
   price       Float
   description String?
 
-  bag    Bag?    @relation(fields: [id_bag], references: [id])
-  tenant Tenant @relation(fields: [id_tenant], references: [id])
+  bag           Bag?            @relation(fields: [id_bag], references: [id])
+  tenant        Tenant          @relation(fields: [id_tenant], references: [id])
+  order_product order_product[]
 
   @@map("Products")
 }
@@ -102,9 +104,11 @@ model Orders {
   status               String
   total                Float
 
-  Address User_Addresses @relation(fields: [id_address], references: [id])
-  Tenant  Tenant         @relation(fields: [id_tenant], references: [id])
-  User    User           @relation(fields: [id_user], references: [id])
+  Address       User_Addresses  @relation(fields: [id_address], references: [id])
+  Tenant        Tenant          @relation(fields: [id_tenant], references: [id])
+  User          User            @relation(fields: [id_user], references: [id])
+  order_product order_product[]
+  order_statues order_statues[]
 }
 
 model order_product {
@@ -113,6 +117,10 @@ model order_product {
   id_product      Int
   products_prices Float
   quantity        Int
+
+  product Product @relation(fields: [id_product], references: [id])
+
+  order Orders @relation(fields: [id_order], references: [id])
 }
 
 model order_statues {
@@ -120,4 +128,6 @@ model order_statues {
   id_order   Int
   status     String
   created_at DateTime @default(now())
+
+  order Orders @relation(fields: [id_order], references: [id])
 }
