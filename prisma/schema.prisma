@@ -84,7 +84,6 @@ model Bag {
   id        Int   @id @default(autoincrement())
   id_user   Int   @unique
   id_tenant Int
-  delivery  Float
 
   user    User      @relation(fields: [id_user], references: [id])
   tenant  Tenant    @relation(fields: [id_tenant], references: [id])

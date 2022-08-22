@@ -10,14 +10,10 @@ import { useApi } from "../../../libs/useApi";
 import { Product } from "../../../types/product";
 import { Tenant } from "../../../types/tenant";
 
-const Product = async (data: Props) => {
+const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
-  const api = await useApi(tenant?.slug as string)
-  
-  console.log(api.getAllProducts())
-
-  const router = useRouter();
+  const router = useRouter(); 
 
   useEffect(() => {
     setTenant(data.tenant);
