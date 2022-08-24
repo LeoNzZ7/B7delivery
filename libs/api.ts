@@ -10,6 +10,20 @@ export default {
     });
   },
 
+  getUser: async (id: string) => {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    if (user) {
+      return user;
+    };
+
+    return null;
+  },
+
   getUsers: async () => {
     const user = await prisma?.user.findMany();
 
@@ -23,29 +37,11 @@ export default {
       where: {
         email
       }
-    })
+    });
 
     if (user) {
       return user;
-    }
-  },
-
-  createNewBag: async (id_tenant: string, id_user: string, id_product: string) => {
-    const newItemBag = await prisma.bag.create({
-      data: {
-        id_tenant: parseInt(id_tenant),
-        id_user: parseInt(id_user),
-        product: {
-          connect: {
-            id: parseInt(id_product)
-          }
-        }
-      }
-    });
-
-    if(newItemBag) {
-      return newItemBag;
-    }
+    };
 
     return null;
   },
@@ -87,6 +83,40 @@ export default {
     };
   },
 
+  getBag: async (id: string) => {
+    const bag = await prisma.bag.findFirst({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    if (bag) {
+      return bag;
+    }
+
+    return null;
+  },
+
+  createNewBag: async (id_tenant: string, id_user: string, id_product: string) => {
+    const newItemBag = await prisma.bag.create({
+      data: {
+        id_tenant: parseInt(id_tenant),
+        id_user: parseInt(id_user),
+        product: {
+          connect: {
+            id: parseInt(id_product)
+          }
+        }
+      }
+    });
+
+    if (newItemBag) {
+      return newItemBag;
+    }
+
+    return null;
+  },
+
   addNewItemBag: async (id: string, id_product: string) => {
     const newItemBag = await prisma.bag.update({
       where: {
@@ -101,8 +131,43 @@ export default {
       }
     });
 
-    if(newItemBag) {
+    if (newItemBag) {
       return newItemBag;
+    };
+
+    return null;
+  },
+
+  deleteItemBag: async (id_user: string, id_product: string) => {
+    const removeItemBag = await prisma?.bag.update({
+      where: {
+        id_user: parseInt(id_user)
+      },
+      data: {
+        product: {
+          disconnect: {
+            id: parseInt(id_product)
+          }
+        }
+      }
+    });
+
+    if (removeItemBag) {
+      return removeItemBag;
+    }
+
+    return null;
+  },
+
+  deleteBag: async (id: string) => {
+    const deleteBag = await prisma.bag.delete({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    if(deleteBag) {
+      return deleteBag;
     };
 
     return null;
