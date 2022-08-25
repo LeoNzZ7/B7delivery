@@ -7,7 +7,7 @@ const handlePost: NextApiHandler = async (req, res) => {
   if (id && id_product) {
 
     const newItemBag = await api.addNewItemBag(id, id_product);
-    
+
     if (newItemBag) {
       res.status(200).json(newItemBag)
     } else {

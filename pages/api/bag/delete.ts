@@ -4,17 +4,17 @@ import api from "../../../libs/api";
 const handleUpdate: NextApiHandler = async (req, res) => {
   const { id_user, id_product } = req.body;
 
-  if(id_user && id_product) {
+  if (id_user && id_product) {
     const bag = await api.getBag(id_user);
 
-    if(bag) {
+    if (bag) {
       const removeItem = await api.deleteItemBag(id_user, id_product);
 
-      if(removeItem) {
+      if (removeItem) {
         res.status(200).json(removeItem);
       };
 
-      res.status(400).json("Não foi possível deletar o item da sacola");
+      res.status(400).json({ Error: "Não foi possível deletar o item da sacola" });
     };
 
     res.status(400).json({ Error: "Sacola não encontrada" });
@@ -30,7 +30,7 @@ const handleDelete: NextApiHandler = async (req, res) => {
     const user = await api.getUser(id_user);
 
     if (user) {
-      const deleteBag = await api.deleteBag(id_user);
+      const deleteBag = await api.deleteBag(user.id);
 
       if (deleteBag) {
         res.status(200).json(deleteBag);
@@ -49,10 +49,10 @@ const handle: NextApiHandler = async (req, res) => {
   switch (req.method) {
     case "PUT":
       handleUpdate(req, res);
-    break;
+      break;
     case "DELETE":
       handleDelete(req, res);
-    break;
+      break;
   };
 };
 

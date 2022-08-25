@@ -86,13 +86,23 @@ export default {
   getBag: async (id: string) => {
     const bag = await prisma.bag.findFirst({
       where: {
-        id: parseInt(id)
+        id_user: parseInt(id)
       }
     });
 
     if (bag) {
-      return bag;
-    }
+      const products = await prisma.product.findMany({
+        where: {
+          id_bag: bag.id
+        }
+      });
+
+      if(products) {
+        return {
+          products
+        };
+      };
+    };
 
     return null;
   },
@@ -154,15 +164,15 @@ export default {
 
     if (removeItemBag) {
       return removeItemBag;
-    }
+    };
 
     return null;
   },
 
-  deleteBag: async (id: string) => {
+  deleteBag: async (id: number) => {
     const deleteBag = await prisma.bag.delete({
       where: {
-        id: parseInt(id)
+        id_user: id
       }
     });
 

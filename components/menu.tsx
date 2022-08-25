@@ -48,7 +48,7 @@ export const Menu = ({ openMenu, setOpenMenu,  }: props) => {
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <ShoppingBagOpen size={16} className="mr-4" />
-          <Link href="b7burguer/bag">Sacola</Link>
+          <Link href="b7burger/bag">Sacola</Link>
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <Heart size={16} className="mr-4" />
