@@ -11,7 +11,7 @@ const handleGet: NextApiHandler = async (req, res) => {
       res.json(bag);
     };
 
-    res.json({ Error: "Não foi possível encontrar a sacola" });
+    res.status(404).json({ Error: "Não foi possível encontrar a sacola" });
   } 
 
   res.status(400).json({Error: "Preencha todos os dados necessários"})

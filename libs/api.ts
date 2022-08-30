@@ -66,6 +66,7 @@ export default {
 
           if (newUser) {
             return {
+              id: newUser.id,
               email: newUser.email,
               password: newUser.password
             };
@@ -107,16 +108,11 @@ export default {
     return null;
   },
 
-  createNewBag: async (id_tenant: string, id_user: string, id_product: string) => {
+  createNewBag: async (id_user: string, id_tenant: string) => {
     const newItemBag = await prisma.bag.create({
       data: {
-        id_tenant: parseInt(id_tenant),
         id_user: parseInt(id_user),
-        product: {
-          connect: {
-            id: parseInt(id_product)
-          }
-        }
+        id_tenant: parseInt(id_tenant),
       }
     });
 

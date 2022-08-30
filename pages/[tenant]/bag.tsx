@@ -11,11 +11,11 @@ import { Tenant } from "../../types/tenant";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 const Bag = (data: Props) => {
-  const router = useRouter();
+  const router = useRouter(); 
 
   const [products, setProducts] = useState<Product[]>(data.products);
 
-  console.log(data.products)
+  console.log(data.products);
 
   return (
     <div className="px-6">
@@ -32,13 +32,13 @@ const Bag = (data: Props) => {
       </div>
       <hr className="mt-4 mb-4" />
       <span>
-
+        {products.length} Itens
       </span>
       <hr className="mt-4 mb-4" />
 
       {products &&
         products.map((item, index) => (
-          <div className="flex items-center justify-between h-[85px] w-[373px]" >
+          <div className="flex items-center justify-between h-[85px] w-[373px]" key={index} >
             <div>
               <img src={item.image} className="w-[85px] h-auto" />
             </div>

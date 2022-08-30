@@ -2,21 +2,13 @@ import { NextApiHandler } from "next";
 import api from "../../../libs/api";
 
 const handlePost: NextApiHandler = async (req, res) => {
-  const { id_tenant, id_user, id_product } = req.body;
+  const { id_user } = req.body;
 
-  if (id_tenant && id_user && id_product) {
+  if (id_user) {
 
-    const newBag = await api.createNewBag(id_tenant, id_user, id_product);
+  } 
 
-    if (newBag) {
-      res.status(200).json(newBag)
-    } else {
-      res.status(400).json({ Error: "Não foi possível adicionar o produto a sacola" })
-    };
-
-  } else {
-    res.status(400).json({ Error: "Preencha todos os campos" })
-  };
+  res.status(400).json({Error: "Preencha todos os dados"})
 };
 
 const handle: NextApiHandler = async (req, res) => {

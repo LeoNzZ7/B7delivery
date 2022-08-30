@@ -14,6 +14,7 @@ import { useAppContext } from "../../contexts/app.content";
 import { useUserCrendtialsContext } from "../../contexts/user.credentials";
 import { useApi } from "../../libs/useApi";
 import { Tenant } from "../../types/tenant";
+import { User } from "../../types/user";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 const Register = (data: Props) => {
@@ -29,9 +30,15 @@ const Register = (data: Props) => {
   const handleCreateAccount = async () => {
     const newUser = await axios.post("/api/users", {
       name, email, password
-    })
+    });
 
     if (newUser.status === 200) {
+      const user: User = await newUser.data;
+
+      const bag = await axios.post("/api/bag/newbag", 
+        { id_user: user.id, id_tenant: 1 }
+      );
+
       const request = await signIn('credentials', {
         redirect: false,
         email, password
@@ -40,7 +47,7 @@ const Register = (data: Props) => {
       setName("");
       setEmail("");
       setPassword("");
-
+      
       if (request && request.ok) {
         if (router.query.callbackUrl) {
           router.push(router.query.callbackUrl as string);

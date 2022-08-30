@@ -7,11 +7,11 @@ export const useApi = async (tenantSlug: string) => ({
       where: {
         slug: tenantSlug
       }
-    })
+    });
 
     if (tenant) {
       return tenant;
-    }
+    };
 
     return null;
   },
@@ -66,5 +66,29 @@ export const useApi = async (tenantSlug: string) => ({
     };
 
     return null;
-  }
+  },
+
+  getBag: async (id: number) => {
+    const bag = await prisma.bag.findFirst({
+      where: {
+        id_user: id
+      }
+    });
+
+    if (bag) {
+      const products = await prisma.product.findMany({
+        where: {
+          id_bag: bag.id
+        }
+      });
+
+      if (products) {
+        return {
+          products
+        };
+      };
+    };
+
+    return null;
+  },
 });
