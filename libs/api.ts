@@ -84,7 +84,7 @@ export default {
     };
   },
 
-  getBag: async (id: string) => {
+  getProductsBag: async (id: string) => {
     const bag = await prisma.bag.findFirst({
       where: {
         id_user: parseInt(id)
@@ -123,10 +123,10 @@ export default {
     return null;
   },
 
-  addNewItemBag: async (id: string, id_product: string) => {
+  addNewItemBag: async (id_user: string, id_product: string) => {
     const newItemBag = await prisma.bag.update({
       where: {
-        id: parseInt(id)
+        id_user: parseInt(id_user)
       },
       data: {
         product: {

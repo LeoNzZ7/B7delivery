@@ -36,7 +36,7 @@ const Register = (data: Props) => {
       const user: User = await newUser.data;
 
       const bag = await axios.post("/api/bag/newbag", 
-        { id_user: user.id, id_tenant: 1 }
+        { id_user: user.id, id_tenant: tenant?.id }
       );
 
       const request = await signIn('credentials', {
@@ -48,7 +48,7 @@ const Register = (data: Props) => {
       setEmail("");
       setPassword("");
       
-      if (request && request.ok) {
+      if (request && request.ok && bag) {
         if (router.query.callbackUrl) {
           router.push(router.query.callbackUrl as string);
         } else {

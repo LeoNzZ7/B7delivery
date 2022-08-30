@@ -20,7 +20,7 @@ const handlePost: NextApiHandler = async (req, res) => {
     res.status(404).json({Error: "Este usuário não existe"});
   };
 
-  res.status(401).json({Error: "Forneça um id de usuário"});
+  res.status(401).json({Error: "Envie um id de usuário"});
 };
 
 const handle: NextApiHandler = async (req, res) => {
