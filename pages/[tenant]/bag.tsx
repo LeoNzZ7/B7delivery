@@ -82,7 +82,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { redirect: { destination: '/singin', permanent: false } }
   }
 
-  const products = await api.getProductsBag("1");
+  const products = await api.getProductsBag(session.user.id.toString());
 
   return {
     props: {

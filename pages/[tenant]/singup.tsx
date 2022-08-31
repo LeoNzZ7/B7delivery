@@ -1,7 +1,7 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";

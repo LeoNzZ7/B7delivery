@@ -11,7 +11,6 @@ import { useAppContext } from "../../../contexts/app.content";
 import { useApi } from "../../../libs/useApi";
 import { Product } from "../../../types/product";
 import { Tenant } from "../../../types/tenant";
-import prisma from "../../../libs/prisma";
 
 const Product = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -20,25 +19,18 @@ const Product = (data: Props) => {
 
   const router = useRouter();
 
-  const handleNewItemBag = async () => {
-    const req = await prisma?.bag.update({
-      where: {
-        id_user: session?.user.id
-      },
-      data: {
-        product: {
-          connect: {
-            id: parseInt(router.query.id as string)
-          }
-        }
-      }
-    })
+  const handleAddItemOnBag = async () => {
+    if(session && sessionStatus === "authenticated") {
+      const req = await axios.put("/api/bag/newitem", {
+          id_user: session?.user.id, id_product: data.product.id
+      });
 
-    console.log(req);
-  };
+      if(req.status === 200) {
+        router.back();
+      };
+    };
 
-  const handleRequestBag = async () => {
-    handleNewItemBag();
+    router.push(`/${tenant?.slug}/singin`);
   };
 
   useEffect( () => {
@@ -97,7 +89,7 @@ const Product = (data: Props) => {
           </span>
         </div>
         <div className="px-5 flex items-center h-[150px]" >
-          <Button invertColors={false} handleFunction={handleRequestBag} buttonText="Adicionar à sacola" />
+          <Button invertColors={false} handleFunction={handleAddItemOnBag} buttonText="Adicionar à sacola" />
         </div>
       </div>
     </div>
