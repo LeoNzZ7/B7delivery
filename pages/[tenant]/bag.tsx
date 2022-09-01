@@ -15,7 +15,7 @@ const Bag = (data: Props) => {
   const router = useRouter();
 
   const [products, setProducts] = useState<Product[]>(data.products);
-  const [cep, setCep] = useState(""); 
+  const [cep, setCep] = useState("");
 
   return (
     <div className="px-6">
@@ -38,8 +38,8 @@ const Bag = (data: Props) => {
 
       {products &&
         products.map((item, index) => (
-          <div>
-            <div className="flex items-center justify-between h-[85px] w-[373px]" key={index} >
+          <div key={index} >
+            <div className="flex items-center justify-between h-[85px] w-[373px]">
               <div>
                 <img src={item.image} className="w-[85px] h-auto" />
               </div>
@@ -55,19 +55,19 @@ const Bag = (data: Props) => {
             <hr className="mb-4 mt-4" />
           </div>
         ))
-      };
+      }
       <div>
-        <div className="mb-5" > 
+        <div className="mb-5" >
           <span className="text-[#6A7D8B]" >Calcular frete e prazo</span>
           <div className="mt-4 flex justify-between">
-            <input 
-              className="rounded-md h-[56px] w-[80%] border-2 focus:ring-0" 
-              style={{ borderColor: data.tenant.mainColor }} 
-              placeholder="12345-123" 
+            <input
+              className="rounded-md h-[56px] w-[80%] border-2 focus:ring-0"
+              style={{ borderColor: data.tenant.mainColor }}
+              placeholder="12345-123"
               value={cep}
               onChange={e => setCep(e.target.value)}
               type="text"
-              />
+            />
             <button className="uppercase border-2 font-semibold w-[56px] h-[56px] rounded-md" style={{ borderColor: data.tenant.mainColor, color: data.tenant.mainColor }} >Ok</button>
           </div>
         </div>
@@ -90,7 +90,7 @@ const Bag = (data: Props) => {
               Subtotal
             </span>
             <span>
-              R$102,00
+              102,50
             </span>
           </div>
           <div className="flex justify-between my-2 border-opacity-60 border-b-2 border-dashed border-[#96A3AB] pb-3">
@@ -109,7 +109,7 @@ const Bag = (data: Props) => {
               R$102,00
             </span>
           </div>
-          <Button invertColors={false} buttonText="Continuar" />
+          <Button invertColors={false} buttonText="Continuar" link={`/${data.tenant.slug}/checkout`} />
         </div>
       </div>
     </div>

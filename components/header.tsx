@@ -26,7 +26,7 @@ export const Header = ({ title, subTitle }: Props) => {
         }
       </div>
       {title &&
-        <hr className="mt-2" />
+        <hr className="mt-4" />
       }
     </div>
   );

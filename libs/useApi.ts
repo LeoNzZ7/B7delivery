@@ -91,4 +91,33 @@ export const useApi = async (tenantSlug: string) => ({
 
     return null;
   },
+
+  getAddresses: async (id: number) => {
+    const address = await prisma.user_Addresses.findMany({
+      where: {
+        id_user: id
+      }
+    });
+
+    if(address) {
+      return address;
+    };
+
+    return null;
+  },
+
+  getAddress: async (id: number) => {
+    const address = await prisma.user_Addresses.findFirst({
+      where: {
+        id_user: id,
+        active: "yes"
+      }
+    });
+
+    if (address) {
+      return address;
+    };
+
+    return null;
+  }
 });

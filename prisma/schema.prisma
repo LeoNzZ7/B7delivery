@@ -13,7 +13,7 @@ model User {
   name     String
   password String
 
-  User_Addresses User_Addresses?
+  User_Addresses User_Addresses[]
   Bag            Bag?
   Orders         Orders[]
 
@@ -24,11 +24,13 @@ model User_Addresses {
   id            Int     @id @default(autoincrement())
   id_user       Int     @unique
   street        String
-  street_number String?
-  zipcode       String?
+  street_number Int?
+  house_number  Int
+  zipcode       Int
   city          String
   state         String
   complement    String?
+  active        String
 
   user   User     @relation(fields: [id_user], references: [id])
   Orders Orders[]
@@ -81,8 +83,8 @@ model Product {
 }
 
 model Bag {
-  id        Int   @id @default(autoincrement())
-  id_user   Int   @unique
+  id        Int @id @default(autoincrement())
+  id_user   Int @unique
   id_tenant Int
 
   user    User      @relation(fields: [id_user], references: [id])
