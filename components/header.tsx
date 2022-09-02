@@ -13,7 +13,7 @@ export const Header = ({ title, subTitle }: Props) => {
   const router = useRouter()
 
   return (
-    <div className="px-9 mt-[76px]">
+    <div className="px-6 mt-[76px]">
       <div className="flex" >
         <button onClick={() => router.back()} >
           <ArrowLeft style={{ color: tenant?.mainColor }} size={24} className='w-6' />
@@ -25,9 +25,7 @@ export const Header = ({ title, subTitle }: Props) => {
           </div>
         }
       </div>
-      {title &&
-        <hr className="mt-4" />
-      }
+      <hr className="mt-5" />
     </div>
   );
 }

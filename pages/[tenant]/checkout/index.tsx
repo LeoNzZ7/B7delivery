@@ -13,7 +13,7 @@ import { Product } from "../../../types/product";
 import { Tenant } from "../../../types/tenant";
 import { authOptions } from "../../api/auth/[...nextauth]";
 
-const Checkout = (data: Props) => {
+const Home = (data: Props) => {
   const router = useRouter();
 
   const [address, setAddress] = useState<Address>(data.address);
@@ -42,8 +42,8 @@ const Checkout = (data: Props) => {
             <div className="bg-white w-12 h-12 flex items-center justify-center rounded-md">
               <MapPin size={24} weight="bold" style={{ color: data.tenant.mainColor }} />
             </div>
-            <div>
-              {address.house_number} - {address.street} - {address.state}
+            <div className="text-[15px]" >
+              {address.house_number} - {address.street} - {address.city.slice(0, 4)}...
             </div>
             <div>
               <CaretRight size={24} weight="bold" style={{ color: data.tenant.mainColor }} />
@@ -55,7 +55,7 @@ const Checkout = (data: Props) => {
   );
 };
 
-export default Checkout;
+export default Home;
 
 type Props = {
   tenant: Tenant;
