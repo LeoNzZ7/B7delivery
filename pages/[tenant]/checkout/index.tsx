@@ -4,9 +4,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ArrowLeft, CaretRight, MapPin } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../../components/button";
 import { Counter } from "../../../components/counter";
+import { useAppContext } from "../../../contexts/app.content";
 import { useApi } from "../../../libs/useApi";
 import { Address } from "../../../types/addresses";
 import { Product } from "../../../types/product";
@@ -14,12 +15,15 @@ import { Tenant } from "../../../types/tenant";
 import { authOptions } from "../../api/auth/[...nextauth]";
 
 const Home = (data: Props) => {
+  const { tenant, setTenant } = useAppContext();
+
+  useEffect(() => {
+    setTenant(data.tenant);
+  }, []);
+
   const router = useRouter();
 
   const [address, setAddress] = useState<Address>(data.address);
-
-  console.log("Endereço:", data.address)
-  console.log("tenant:", data.tenant)
 
   return (
     <div className="px-6">

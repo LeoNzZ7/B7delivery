@@ -3,15 +3,21 @@ import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ArrowLeft, MapPin } from "phosphor-react";
+import { useEffect } from "react";
 import { Button } from "../../../../components/button";
 import { Header } from "../../../../components/header";
+import { useAppContext } from "../../../../contexts/app.content";
 import { useApi } from "../../../../libs/useApi";
 import { Address } from "../../../../types/addresses";
 import { Tenant } from "../../../../types/tenant";
 import { authOptions } from "../../../api/auth/[...nextauth]";
 
 const Home = (data: Props) => {
-  console.log(data.addresses);
+  const { tenant, setTenant } = useAppContext();
+
+  useEffect(() => {
+    setTenant(data.tenant);
+  }, []);
 
   const router = useRouter();
 

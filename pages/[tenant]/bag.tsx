@@ -3,15 +3,22 @@ import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ArrowLeft } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../../components/button";
 import { Counter } from "../../components/counter";
+import { useAppContext } from "../../contexts/app.content";
 import { useApi } from "../../libs/useApi";
 import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenant";
 import { authOptions } from "../api/auth/[...nextauth]";
 
 const Bag = (data: Props) => {
+  const { tenant, setTenant } = useAppContext();
+
+  useEffect(() => {
+    setTenant(data.tenant);
+  }, []);
+
   const router = useRouter();
 
   const [products, setProducts] = useState<Product[]>(data.products);
