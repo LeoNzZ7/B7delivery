@@ -98,12 +98,91 @@ export default {
         }
       });
 
-      if(products) {
+      if (products) {
         return {
           products
         };
       };
     };
+
+    return null;
+  },
+
+  getUserAddress: async (id: string) => {
+    const user = await prisma.user_Addresses.findMany({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    if (user) {
+      return user;
+    };
+
+    return null;
+  },
+
+  createNewAddress: async (id_user: string, street: string, house_number: string, zipcode: string, city: string, state: string, complement?: string) => {
+    const userAddress = await prisma.user_Addresses.findMany({
+      where: {
+        id_user: parseInt(id_user)
+      }
+    });
+
+    const newAddress = await prisma.user_Addresses.create({
+      data: {
+        id_user: parseInt(id_user),
+        street,
+        house_number: parseInt(house_number),
+        zipcode: parseInt(zipcode),
+        city,
+        state,
+        complement,
+        active: userAddress.length > 0 ? "no" : "yes"
+      }
+    });
+
+    if (newAddress) {
+      return newAddress;
+    };
+    
+    return null;
+  },
+
+  updateAddress: async (id: string, id_user: string, street: string, house_number: string, zipcode: string, city: string, state: string, complement?: string) => {
+    const updateAddress = await prisma.user_Addresses.updateMany({
+      where: {
+        id: parseInt(id),
+        id_user: parseInt(id_user)
+      },
+      data: {
+        street,
+        house_number: parseInt(house_number),
+        zipcode: parseInt(zipcode),
+        city,
+        state,
+        complement,
+      }
+    });
+    
+    if(updateAddress) {
+      return updateAddress;
+    }
+
+    return null;
+  },
+
+  deleteAddress: async (id: string, id_user: string) => {
+    const deleteAddress = await prisma.user_Addresses.deleteMany({
+      where: {
+        id: parseInt(id),
+        id_user: parseInt(id_user)
+      }
+    });
+
+    if(deleteAddress) {
+      return deleteAddress;
+    }
 
     return null;
   },
@@ -172,7 +251,7 @@ export default {
       }
     });
 
-    if(deleteBag) {
+    if (deleteBag) {
       return deleteBag;
     };
 

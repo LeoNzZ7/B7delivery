@@ -24,7 +24,6 @@ model User_Addresses {
   id            Int     @id @default(autoincrement())
   id_user       Int   
   street        String
-  street_number Int?
   house_number  Int
   zipcode       Int
   city          String
