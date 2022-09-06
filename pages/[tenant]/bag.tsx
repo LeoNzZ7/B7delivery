@@ -21,10 +21,18 @@ const Bag = (data: Props) => {
   const [products, setProducts] = useState<Product[]>(data.products);
   const [address, setAddress] = useState<Address>(data.address);
   const [cep, setCep] = useState("");
-  const [total, setSubTotal] = useState(0)
+  const [frete, setFrete] = useState(12.50);
+  const [discount, setDiscount] = useState(5)
+  const [subTotal, setSubTotal] = useState(0);
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     setTenant(data.tenant);
+    for(let i in products) {
+      setSubTotal(Math.round(products[i].price * products.length) + frete);
+      setDiscount(Math.round((subTotal / 100) * 5))
+      setTotal((subTotal - discount)) 
+    };
 
   }, []);
 
@@ -74,7 +82,7 @@ const Bag = (data: Props) => {
             <input
               className="rounded-md h-[56px] w-[80%] border-2 focus:ring-0"
               style={{ borderColor: data.tenant.mainColor }}
-              placeholder="12345-123"
+              placeholder="Digite o seu CEP"
               value={cep}
               onChange={e => setCep(e.target.value)}
               type="text"
@@ -101,15 +109,23 @@ const Bag = (data: Props) => {
               Subtotal
             </span>
             <span>
-              102,50
+              {subTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
             </span>
           </div>
-          <div className="flex justify-between my-2 border-opacity-60 border-b-2 border-dashed border-[#96A3AB] pb-3">
+          <div className="flex justify-between my-2 border-opacity-60">
             <span>
               Frete
             </span>
             <span>
-              --
+              {frete.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+            </span>
+          </div>
+          <div className="flex justify-between my-2 border-opacity-60 border-b-2 border-dashed border-[#96A3AB] pb-3">
+            <span>
+              Desconto
+            </span>
+            <span>
+              {discount.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
             </span>
           </div>
           <div className="flex justify-between">
@@ -117,7 +133,7 @@ const Bag = (data: Props) => {
               Total
             </span>
             <span className="text-[#FB9400] font-semibold text-[24px]" >
-              R$102,00
+              {total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
             </span>
           </div>
           <Button invertColors={false} buttonText="Continuar" link={`/${data.tenant.slug}/checkout`} />
