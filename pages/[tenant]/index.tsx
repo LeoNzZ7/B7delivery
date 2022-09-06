@@ -7,22 +7,37 @@ import { ProductItem } from "../../components/productItem";
 import { SearchInput } from "../../components/searchInput";
 import { useAppContext } from "../../contexts/app.content";
 import { useApi } from "../../libs/useApi";
+import { Banners } from "../../types/banners";
 import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenant";
 
 const Home = (data: Props) => {
+
+  //Tenant
   const { tenant, setTenant } = useAppContext();
 
   useEffect(() => {
     setTenant(data.tenant);
   }, []);
 
-  const [products, setProducts] = useState<Product[]>(data.products);
   const [openMenu, setOpenMenu] = useState(false);
+  const [products, setProducts] = useState<Product[]>(data.products);
+  const [searchText, setSearchText] = useState("");
 
-  const handleSearch = (searchValue: string) => {
-    console.log(searchValue)
-  };
+  //Search
+  const handleSearch = (searchValue: string) => setSearchText(searchValue);
+
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    let newFilteredProducts: Product[] = []
+    for (let product of data.products) {
+      if (product.name.toLocaleLowerCase().indexOf(searchText.toLowerCase()) > -1) {
+        newFilteredProducts.push(product);
+      };
+    }
+    setFilteredProducts(newFilteredProducts);
+  }, [searchText]);
 
   return (
     <>
@@ -51,12 +66,25 @@ const Home = (data: Props) => {
               />
             </div>
           </header>
-          {!openMenu && <Banner />}
-          <div className="m-auto grid grid-cols-2 px-6 gap-6">
-            {products.map((item, index) => (
-              <ProductItem data={item} key={index} />
-            ))}
-          </div>
+          {!searchText &&
+            <>
+              {!openMenu && <Banner banners={data.banners} />}
+              <div className="m-auto grid grid-cols-2 px-6 gap-6">
+                {products.map((item, index) => (
+                  <ProductItem data={item} key={index} />
+                ))}
+              </div>
+            </>
+          }
+          {searchText &&
+            <>
+              <div className="m-auto grid grid-cols-2 px-6 gap-6 mt-6">
+                {filteredProducts.map((item, index) => (
+                  <ProductItem data={item} key={index} />
+                ))}
+              </div>
+            </>
+          }
         </div>
         <Menu openMenu={openMenu} setOpenMenu={setOpenMenu} />
       </div>
@@ -68,6 +96,7 @@ export default Home;
 
 type Props = {
   tenant: Tenant;
+  banners: Banners[];
   products: Product[];
 };
 
@@ -80,12 +109,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { redirect: { destination: '/', permanent: false } }
   };
 
+  const banners = await api.getBanners(tenant.id);
   const products = await api.getAllProducts();
 
   return {
     props: {
       tenant,
-      products
+      products,
+      banners
     }
   };
 };

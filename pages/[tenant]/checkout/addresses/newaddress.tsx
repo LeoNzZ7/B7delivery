@@ -1,6 +1,9 @@
+import axios from "axios";
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Button } from "../../../../components/button";
 import { Header } from "../../../../components/header";
@@ -12,6 +15,9 @@ import { authOptions } from "../../../api/auth/[...nextauth]";
 const NewAddress = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
+  const { data: session } = useSession();
+  const router = useRouter();
+
   const [cep, setCep] = useState("");
   const [street, setStreet] = useState("");
   const [houseNumber, setHouseNumber] = useState("");
@@ -19,6 +25,16 @@ const NewAddress = (data: Props) => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [complement, setComplement] = useState("");
+
+  const handleAddNewAddress = async () => {
+    const req = await axios.post("/api/address/", {
+      id_user: session?.user.id, street, house_number: parseInt(houseNumber), zipcode: parseInt(cep), city, state, complement
+    });
+
+    if (req) {
+      router.back();
+    };
+  };
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -94,7 +110,7 @@ const NewAddress = (data: Props) => {
               className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
               type="text"
               placeholder="Digite aqui o seu estado"
-              value={cep}
+              value={state}
               onChange={e => setState(e.target.value)}
             />
           </label>
@@ -104,12 +120,12 @@ const NewAddress = (data: Props) => {
               className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
               type="text"
               placeholder="Digite aqui o complemento"
-              value={cep}
+              value={complement}
               onChange={e => setComplement(e.target.value)}
             />
           </label>
           <div className="mb-10" >
-            <Button buttonText="Adicionar" invertColors={false} />
+            <Button buttonText="Adicionar" invertColors={false} handleFunction={handleAddNewAddress} />
           </div>
         </div>
       </div>

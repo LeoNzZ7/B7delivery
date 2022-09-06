@@ -119,5 +119,19 @@ export const useApi = async (tenantSlug: string) => ({
     };
 
     return null;
+  },
+
+  getBanners: async (id_tenant: number) => {
+    const banners = await prisma.banners.findMany({
+      where: {
+        id_tenant
+      }
+    });
+
+    if(banners) {
+      return banners
+    };
+
+    return null;
   }
 });

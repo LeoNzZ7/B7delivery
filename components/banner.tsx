@@ -1,8 +1,13 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Autoplay } from 'swiper';
+import { Banners } from '../types/banners';
 
-export const Banner = () => {
+type Props = {
+  banners: Banners[];
+}
+
+export const Banner = ({ banners }: Props) => {
   return(
     <Swiper
       slidesPerView={1}
@@ -13,12 +18,11 @@ export const Banner = () => {
       }}
       modules={[Autoplay]}
     >
-      <SwiperSlide>
-        <img src="/temp/banner001.png" alt="" className='w-full h-full rounded-lg drop-shadow-lg' />
-      </SwiperSlide>
-      <SwiperSlide>
-        <img src="/temp/banner002.png" alt="" className='w-full h-full rounded-lg drop-shadow-lg' />
-      </SwiperSlide>
+      {banners.map((item, index) => (
+        <SwiperSlide key={index} >
+          <img src={item.image} alt="" className='w-full h-full rounded-lg drop-shadow-lg' />
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
-}
+};

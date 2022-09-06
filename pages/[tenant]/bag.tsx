@@ -8,6 +8,7 @@ import { Button } from "../../components/button";
 import { Counter } from "../../components/counter";
 import { useAppContext } from "../../contexts/app.content";
 import { useApi } from "../../libs/useApi";
+import { Address } from "../../types/addresses";
 import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenant";
 import { authOptions } from "../api/auth/[...nextauth]";
@@ -15,14 +16,17 @@ import { authOptions } from "../api/auth/[...nextauth]";
 const Bag = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
-  useEffect(() => {
-    setTenant(data.tenant);
-  }, []);
-
   const router = useRouter();
 
   const [products, setProducts] = useState<Product[]>(data.products);
+  const [address, setAddress] = useState<Address>(data.address);
   const [cep, setCep] = useState("");
+  const [total, setSubTotal] = useState(0)
+
+  useEffect(() => {
+    setTenant(data.tenant);
+
+  }, []);
 
   return (
     <div className="px-6">
@@ -80,7 +84,7 @@ const Bag = (data: Props) => {
         </div>
         <div className="bg-[#F9F9FA] h-[94px] flex flex-col justify-center items-center rounded-sm my-5" >
           <span className="text-[#6A7D8B] text-[10px] w-[85%]" >
-            Rua das Flores - Jardins da Serra - Campina Pequena
+            {address.street} - {address.city} - {address.state}
           </span>
           <div className="flex justify-between w-[85%] mt-2">
             <span className="text-black font-normal" >
@@ -128,6 +132,7 @@ export default Bag;
 type Props = {
   tenant: Tenant;
   products: Product[];
+  address: Address;
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -148,11 +153,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 
   const products = await api.getProductsBag(session.user.id.toString());
+  const address = await api.getAddress(session.user.id);
 
   return {
     props: {
       tenant,
-      products
+      products,
+      address
     }
   };
 };

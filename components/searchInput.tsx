@@ -4,7 +4,7 @@ import { useAppContext } from "../contexts/app.content";
 
 type Props = {
   onSearch: (searchValue: string) => void
-}
+};
 
 export const SearchInput = ({ onSearch }: Props) => {
   const { tenant } = useAppContext();
@@ -15,8 +15,8 @@ export const SearchInput = ({ onSearch }: Props) => {
   const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
     event.preventDefault();
 
-    if(event.code === 'ENTER') {
-      onSearch(searchValue)
+    if(event.code === 'Enter') {
+      onSearch(searchValue);
     };
   };
 
@@ -28,7 +28,7 @@ export const SearchInput = ({ onSearch }: Props) => {
     <div style={{ borderColor: focused ? tenant?.mainColor : '#FFF' }} className={`flex items-center h-full w-white w-full bg-white p-2 rounded-md border-[1px] transition-colors`}>
         <label className="flex justify-center items-cente">
           <button 
-          onClick={() => handleSearch}
+          onClick={() => handleSearch(searchValue)}
           className="flex justify-center items-center h-[48] w-[48] bg-[#F9F9F9] p-2 rounded-md">
             <MagnifyingGlass style={{ color: tenant?.mainColor }} size={32} />
           </button>
