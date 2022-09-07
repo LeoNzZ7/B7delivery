@@ -187,6 +187,23 @@ export default {
     return null;
   },
 
+  updateProduct: async (id_product: string, qnt: string)=> {
+    const updateProduct = await prisma.product.update({
+      where: {
+        id: parseInt(id_product)
+      },
+      data: {
+        quantity: parseInt(qnt)
+      }
+    })
+
+    if(updateProduct) {
+      return updateProduct;
+    }
+
+    return null;
+  },
+
   createNewBag: async (id_user: string, id_tenant: string) => {
     const newItemBag = await prisma.bag.create({
       data: {

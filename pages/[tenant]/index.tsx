@@ -12,8 +12,6 @@ import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenant";
 
 const Home = (data: Props) => {
-
-  //Tenant
   const { tenant, setTenant } = useAppContext();
 
   useEffect(() => {
@@ -24,7 +22,6 @@ const Home = (data: Props) => {
   const [products, setProducts] = useState<Product[]>(data.products);
   const [searchText, setSearchText] = useState("");
 
-  //Search
   const handleSearch = (searchValue: string) => setSearchText(searchValue);
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -69,7 +66,7 @@ const Home = (data: Props) => {
           {!searchText &&
             <>
               {!openMenu && <Banner banners={data.banners} />}
-              <div className="m-auto grid grid-cols-2 px-6 gap-6">
+            <div className="m-auto grid grid-cols-2 px-6 gap-6 pb-6">
                 {products.map((item, index) => (
                   <ProductItem data={item} key={index} />
                 ))}
@@ -78,7 +75,7 @@ const Home = (data: Props) => {
           }
           {searchText &&
             <>
-              <div className="m-auto grid grid-cols-2 px-6 gap-6 mt-6">
+            <div className="m-auto grid grid-cols-2 px-6 gap-6 mt-6 pb-6">
                 {filteredProducts.map((item, index) => (
                   <ProductItem data={item} key={index} />
                 ))}

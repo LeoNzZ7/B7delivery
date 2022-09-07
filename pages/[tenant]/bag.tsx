@@ -1,6 +1,8 @@
+import Head from "next/head";
+import Link from "next/link";
+import axios from "axios";
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { ArrowLeft } from "phosphor-react";
 import { useEffect, useState } from "react";
@@ -18,28 +20,36 @@ const Bag = (data: Props) => {
 
   const router = useRouter();
 
-  const [products, setProducts] = useState<Product[]>(data.products);
+  const [products, setProducts] = useState<Product[]>([]);
   const [address, setAddress] = useState<Address>(data.address);
   const [cep, setCep] = useState("");
   const [frete, setFrete] = useState(12.50);
-  const [discount, setDiscount] = useState(5)
+  const [discount, setDiscount] = useState(5);
   const [subTotal, setSubTotal] = useState(0);
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0);
+
+  const handleGetProductsBag = async () => {   
+    const req = await axios.post("/api/bag/", { id_user: 5 });
+
+    if(req.status === 200) {
+      setProducts(req.data.products);
+    };
+  };
 
   useEffect(() => {
     setTenant(data.tenant);
-    for(let i in products) {
-      setSubTotal(Math.round(products[i].price * products.length) + frete);
+    for (let i in products) {
+      setSubTotal(Math.round(((products[i].price * products[i].quantity) * products.length) + frete));
       setDiscount(Math.round((subTotal / 100) * 5))
-      setTotal((subTotal - discount)) 
+      setTotal(Math.round((subTotal - discount)))
     };
-
-  }, []);
+    handleGetProductsBag();
+  });
 
   return (
     <div className="px-6">
       <Head>
-        <title>Sácola | {data.tenant?.name}</title>
+        <title>Sacola | {data.tenant?.name}</title>
       </Head>
       <div className="mt-14 flex items-center">
         <button onClick={() => router.back()} style={{ color: data.tenant?.mainColor as string }} >
@@ -59,17 +69,23 @@ const Bag = (data: Props) => {
         products.map((item, index) => (
           <div key={index} >
             <div className="flex items-center justify-between h-[85px] w-[373px]">
-              <div>
-                <img src={item.image} className="w-[85px] h-auto" />
+              <Link href={`/${tenant?.slug}/product/${item.id}`}>
+                <div className="w-[75px] h-[75px] flex justify-center items-center" >
+                  <img src={item.image} className="w-[85px] h-auto" />
+                </div>
+              </Link>
+              <div className="flex flex-col flex-1 justify-between p-2" >
+                <span className="text-[12px] font-medium text-[#666]">{item.category}</span>
+                <span className="text-[#1B1B1B] text-[18px]">{item.name}</span>
+                <span className="text-[#FB9400] text-[16px] font-semibold">
+                  {((item.price * 1) * item.quantity).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                </span>
               </div>
-              <div className="flex flex-col justify-between p-2" >
-                <span className="text-[12px] font-medium text-[#666]">{data.products[0].category}</span>
-                <span className="text-[#1B1B1B] text-[18px]">{data.products[0].name}</span>
-                <span className="text-[#FB9400] text-[16px] font-semibold" >{data.products[0].price}</span>
-              </div>
-              <div>
-                <Counter />
-              </div>
+              <>
+                <div>
+                  <Counter product={item} />
+                </div>
+              </>
             </div>
             <hr className="mb-4 mt-4" />
           </div>

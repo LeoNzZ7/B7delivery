@@ -80,12 +80,12 @@ const Product = (data: Props) => {
         <div className="px-5 mt-5 flex justify-between items-end">
           <div>
             <span>Quantidade</span>
-            <Counter />
+            <Counter product={data.product} />
           </div>
           <span
             style={{ color: tenant?.mainColor }}
             className="font-semibold text-[40px]" >
-            {data.product.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+            {((data.product.price * 1) * data.product.quantity).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
           </span>
         </div>
         <div className="px-5 flex items-center h-[150px]" >
