@@ -145,7 +145,7 @@ export default {
     if (newAddress) {
       return newAddress;
     };
-    
+
     return null;
   },
 
@@ -164,8 +164,8 @@ export default {
         complement,
       }
     });
-    
-    if(updateAddress) {
+
+    if (updateAddress) {
       return updateAddress;
     }
 
@@ -180,25 +180,35 @@ export default {
       }
     });
 
-    if(deleteAddress) {
+    if (deleteAddress) {
       return deleteAddress;
     }
 
     return null;
   },
 
-  updateProduct: async (id_product: string, qnt: string)=> {
-    const updateProduct = await prisma.product.update({
+  updateProduct: async (id_product: string, qnt: string) => {
+    const product = await prisma.product.findFirst({
       where: {
         id: parseInt(id_product)
-      },
-      data: {
-        quantity: parseInt(qnt)
       }
-    })
+    });
 
-    if(updateProduct) {
-      return updateProduct;
+    if (product) {
+      product.price = product.price * parseInt(qnt)
+
+      const updateProduct = await prisma.product.update({
+        where: {
+          id: parseInt(id_product)
+        },
+        data: {
+          multiplePrice: product.price     
+        }
+      });
+
+      if (updateProduct) {
+        return updateProduct;
+      }
     }
 
     return null;

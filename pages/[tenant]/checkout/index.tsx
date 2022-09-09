@@ -3,7 +3,7 @@ import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ArrowLeft, CaretRight, MapPin } from "phosphor-react";
+import { ArrowLeft, CaretRight, CreditCard, CurrencyCircleDollar, MapPin, Ticket } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Button } from "../../../components/button";
 import { Counter } from "../../../components/counter";
@@ -17,13 +17,35 @@ import { authOptions } from "../../api/auth/[...nextauth]";
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
 
+  const [address, setAddress] = useState<Address>(data.address);
+  const [products, setProducts] = useState<Product[]>(data.products);
+  const [paymentMethod, setPaymentMethod] = useState<"currency" | "card">("currency");
+  const [moneyReturn, setMoneyReturn] = useState(0);
+  const [delivery, setDelivery] = useState(12.50);
+  const [discount, setDiscount] = useState(5);
+  const [subTotal, setSubTotal] = useState(0);
+  const [total, setTotal] = useState(0);
+
   useEffect(() => {
     setTenant(data.tenant);
   }, []);
 
-  const router = useRouter();
+  useEffect(() => {
+    setTenant(data.tenant);
 
-  const [address, setAddress] = useState<Address>(data.address);
+    let price = 0
+
+    for (let i = 0; i < products.length; i++) {
+      price += Math.round(products[i].multiplePrice)
+      Math.round(price);
+    };
+
+    setSubTotal(price + delivery);
+    setDiscount(Math.round((subTotal / 100) * 5));
+    setTotal(Math.round(subTotal - discount));
+  });
+
+  const router = useRouter();
 
   return (
     <div className="px-6">
@@ -55,6 +77,129 @@ const Home = (data: Props) => {
           </div>
         </Link>
       </div>
+      <div className="mt-5">
+        <span>Tipo de pagamento</span>
+        <div className="flex justify-between items-center">
+          <div 
+          onClick={() => setPaymentMethod("currency")} 
+          style={{ background: paymentMethod === "currency" ? tenant?.mainColor : "#F9F9FB" }}
+            className="w-[178px] h-[60px] px-2 flex items-center rounded transition-colors">
+            <div 
+            className="h-12 w-12 bg-red-[] flex items-center justify-center rounded transition-colors"
+            style={{ background: paymentMethod === "currency" ? "#F08E00" : "#F9F9FB" }}
+            >
+              <CurrencyCircleDollar 
+              style={{ color: paymentMethod === "currency" ? "#FFF" : "#000" }} 
+              size={24} 
+              />
+            </div>
+            <span className="ml-5" >
+              Dinheiro
+            </span>
+          </div>
+          <div 
+          onClick={() => setPaymentMethod("card")} 
+          style={{ background: paymentMethod === "card" ? tenant?.mainColor : "#F9F9FB" }}
+          className="w-[178px] h-[60px] px-2 flex items-center rounded transition-colors">
+            <div 
+              className="h-12 w-12 flex items-center justify-center rounded transition-colors" 
+            style={{ background: paymentMethod === "card" ? "#F08E00" : "#F9F9FB" }}
+            >
+              <CreditCard
+              style={{ color: paymentMethod === "card" ? "#FFF": "#000" }} 
+              size={24} 
+              />
+            </div>
+            <span className="ml-5" >
+              Cartão
+            </span>
+          </div>
+        </div>
+      </div>
+      {paymentMethod === "currency" &&
+        <div className="mt-5">
+          <label className="flex flex-col" >
+            <span>Troco</span>
+            <input 
+            type="number" 
+            className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+            onChange={e => setMoneyReturn(e.target.valueAsNumber)}
+            value={moneyReturn}
+            placeholder="Digite quanto você vai precisar de troco"
+            />
+          </label>
+        </div>
+      }
+      <div className="mt-5">
+        <span>Cupom de desconto</span>
+        <Ticket size={32} weight="bold" />
+      </div>
+      <hr className="mt-4 mb-4" />
+      <span>
+        {products.length} Itens
+      </span>
+      <hr className="mt-4 mb-4" />
+      {products &&
+        products.map((item, index) => (
+          <div key={index} >
+            <div className="flex items-center justify-between h-[85px] w-[373px]">
+              <Link href={`/${tenant?.slug}/product/${item.id}`}>
+                <div className="w-[75px] h-[75px] flex justify-center items-center" >
+                  <img src={item.image} className="w-[85px] h-auto" />
+                </div>
+              </Link>
+              <div className="flex flex-col flex-1 justify-between p-2" >
+                <span className="text-[12px] font-medium text-[#666]">{item.category}</span>
+                <span className="text-[#1B1B1B] text-[18px]">{item.name}</span>
+                <span className="text-[#FB9400] text-[16px] font-semibold">
+                  {(item.multiplePrice).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                </span>
+              </div>
+              <>
+                <div>
+                  <Counter product={item} />
+                </div>
+              </>
+            </div>
+            <hr className="mb-4 mt-4" />
+          </div>
+        ))
+      }
+      <div className="bg-[#F9F9FB] my-5 p-5">
+        <div className="flex justify-between">
+          <span>
+            Subtotal
+          </span>
+          <span>
+            {subTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+          </span>
+        </div>
+        <div className="flex justify-between my-2 border-opacity-60">
+          <span>
+            Frete
+          </span>
+          <span>
+            {delivery.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+          </span>
+        </div>
+        <div className="flex justify-between my-2 border-opacity-60 border-b-2 border-dashed border-[#96A3AB] pb-3">
+          <span>
+            Desconto
+          </span>
+          <span>
+            {discount.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+          </span>
+        </div>
+        <div className="flex justify-between">
+          <span>
+            Total
+          </span>
+          <span className="text-[#FB9400] font-semibold text-[24px]" >
+            {total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+          </span>
+        </div>
+        <Button invertColors={false} buttonText="Finalizar Pedido" />
+      </div>
     </div>
   );
 };
@@ -81,7 +226,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 
   if (!session) {
-    return { redirect: { destination: '/singin', permanent: false } };
+    return { redirect: { destination: `${tenantSlug}/singin`, permanent: false } };
   };
 
   const products = await api.getProductsBag(session.user.id.toString());

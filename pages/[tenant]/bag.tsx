@@ -14,36 +14,43 @@ import { Address } from "../../types/addresses";
 import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenant";
 import { authOptions } from "../api/auth/[...nextauth]";
+import { useSession } from "next-auth/react";
 
 const Bag = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
+  const { data: session } = useSession();
 
   const router = useRouter();
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(data.products);
   const [address, setAddress] = useState<Address>(data.address);
-  const [cep, setCep] = useState("");
-  const [frete, setFrete] = useState(12.50);
+  const [zipCode, setZipCode] = useState("");
+  const [delivery, setDelivery] = useState(12.50);
   const [discount, setDiscount] = useState(5);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
 
-  const handleGetProductsBag = async () => {   
-    const req = await axios.post("/api/bag/", { id_user: 5 });
+  const handleGetProductsBag = async () => {
+    const req = await axios.post("/api/bag/", { id_user: session?.user.id });
 
-    if(req.status === 200) {
+    if (req.status === 200) {
       setProducts(req.data.products);
     };
   };
 
   useEffect(() => {
     setTenant(data.tenant);
-    for (let i in products) {
-      setSubTotal(Math.round(((products[i].price * products[i].quantity) * products.length) + frete));
-      setDiscount(Math.round((subTotal / 100) * 5))
-      setTotal(Math.round((subTotal - discount)))
+
+    let price = 0
+    
+    for (let i = 0; i < products.length; i++) {
+      price += Math.round(products[i].multiplePrice)
+      Math.round(price);
     };
-    handleGetProductsBag();
+
+    setSubTotal(price + delivery);
+    setDiscount(Math.round((subTotal / 100) * 5));
+    setTotal(Math.round(subTotal - discount));
   });
 
   return (
@@ -64,7 +71,6 @@ const Bag = (data: Props) => {
         {products.length} Itens
       </span>
       <hr className="mt-4 mb-4" />
-
       {products &&
         products.map((item, index) => (
           <div key={index} >
@@ -78,11 +84,11 @@ const Bag = (data: Props) => {
                 <span className="text-[12px] font-medium text-[#666]">{item.category}</span>
                 <span className="text-[#1B1B1B] text-[18px]">{item.name}</span>
                 <span className="text-[#FB9400] text-[16px] font-semibold">
-                  {((item.price * 1) * item.quantity).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+                  {(item.multiplePrice).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                 </span>
               </div>
               <>
-                <div>
+                <div onClick={handleGetProductsBag} >
                   <Counter product={item} />
                 </div>
               </>
@@ -99,8 +105,8 @@ const Bag = (data: Props) => {
               className="rounded-md h-[56px] w-[80%] border-2 focus:ring-0"
               style={{ borderColor: data.tenant.mainColor }}
               placeholder="Digite o seu CEP"
-              value={cep}
-              onChange={e => setCep(e.target.value)}
+              value={zipCode}
+              onChange={e => setZipCode(e.target.value)}
               type="text"
             />
             <button className="uppercase border-2 font-semibold w-[56px] h-[56px] rounded-md" style={{ borderColor: data.tenant.mainColor, color: data.tenant.mainColor }} >Ok</button>
@@ -133,7 +139,7 @@ const Bag = (data: Props) => {
               Frete
             </span>
             <span>
-              {frete.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+              {delivery.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
             </span>
           </div>
           <div className="flex justify-between my-2 border-opacity-60 border-b-2 border-dashed border-[#96A3AB] pb-3">

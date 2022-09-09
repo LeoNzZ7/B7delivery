@@ -5,18 +5,14 @@ import { Product } from "../types/product";
 
 type Props = {
   product: Product;
-}
+};
 
 export const Counter = ({ product }: Props) => {
   const { tenant } = useAppContext();
   const [amount, setAmount] = useState(product.quantity);
 
   const handleUpdateProduct = async () => {
-    setTimeout( async () => {
-      const req = await axios.put("/api/product/", {
-        id_product: product.id, qnt: amount
-      });
-    }, 3000);
+    const req = await axios.put("/api/product/", { id_product: product.id, qnt: amount });
   };
 
   const handleCounterSum = () => {
@@ -26,12 +22,12 @@ export const Counter = ({ product }: Props) => {
   const handleCountersubtract = () => {
     if (amount > 1) {
       setAmount(amount - 1);
-    }
+    };
   };
 
   useEffect(() => {
-    handleUpdateProduct()
-  }, [handleCounterSum, handleCountersubtract])
+    handleUpdateProduct();
+  });
 
   return (
     <div className="flex w-[140px] justify-around items-center mt-3 h-12 border border-[#EEE] rounded-md">
@@ -53,5 +49,5 @@ export const Counter = ({ product }: Props) => {
         onClick={handleCounterSum}
       >+</button>
     </div>
-  )
-}
+  );
+};

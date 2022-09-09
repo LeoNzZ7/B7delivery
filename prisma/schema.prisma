@@ -21,15 +21,15 @@ model User {
 }
 
 model User_Addresses {
-  id            Int     @id @default(autoincrement())
-  id_user       Int   
-  street        String
-  house_number  Int
-  zipcode       Int
-  city          String
-  state         String
-  complement    String?
-  active        String
+  id           Int     @id @default(autoincrement())
+  id_user      Int
+  street       String
+  house_number Int
+  zipcode      Int
+  city         String
+  state        String
+  complement   String?
+  active       String
 
   user   User     @relation(fields: [id_user], references: [id])
   Orders Orders[]
@@ -63,16 +63,17 @@ model Banners {
 }
 
 model Product {
-  id          Int     @id @default(autoincrement())
-  id_tenant   Int
-  id_bag      Int?
-  order       Int
-  name        String
-  image       String
-  category    String
-  quantity    Int
-  price       Float
-  description String?
+  id            Int     @id @default(autoincrement())
+  id_tenant     Int
+  id_bag        Int?
+  order         Int
+  name          String
+  image         String
+  category      String
+  quantity      Int
+  price         Float
+  multiplePrice Float?
+  description   String?
 
   bag           Bag?            @relation(fields: [id_bag], references: [id])
   tenant        Tenant          @relation(fields: [id_tenant], references: [id])
