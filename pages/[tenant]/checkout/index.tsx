@@ -3,7 +3,7 @@ import { unstable_getServerSession } from "next-auth";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { ArrowLeft, CaretRight, CreditCard, CurrencyCircleDollar, MapPin, Ticket } from "phosphor-react";
+import { ArrowLeft, CaretRight, CheckCircle, CreditCard, CurrencyCircleDollar, MapPin, Ticket } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Button } from "../../../components/button";
 import { Counter } from "../../../components/counter";
@@ -20,7 +20,7 @@ const Home = (data: Props) => {
   const [address, setAddress] = useState<Address>(data.address);
   const [products, setProducts] = useState<Product[]>(data.products);
   const [paymentMethod, setPaymentMethod] = useState<"currency" | "card">("currency");
-  const [moneyReturn, setMoneyReturn] = useState(0);
+  const [moneyReturn, setMoneyReturn] = useState<number>();
   const [delivery, setDelivery] = useState(12.50);
   const [discount, setDiscount] = useState(5);
   const [subTotal, setSubTotal] = useState(0);
@@ -64,12 +64,12 @@ const Home = (data: Props) => {
       <div className="mt-5">
         <span>Endereço</span>
         <Link href={`/${data.tenant.slug}/checkout/addresses`} >
-          <div className="h-[61px] mt-2 rounded-md bg-[#F9F9FB] flex items-center justify-around">
+          <div className="h-[60px] mt-2 rounded-md bg-[#F9F9FB] flex items-center justify-between px-2">
             <div className="bg-white w-12 h-12 flex items-center justify-center rounded-md">
               <MapPin size={24} weight="bold" style={{ color: data.tenant.mainColor }} />
             </div>
             <div className="text-[15px]" >
-              {address.house_number} - {address.street} - {address.city.slice(0, 4)}...
+              {address.house_number} - {address.street.length > 20 ? address.street.slice(0, 20) + "..." : address.street} - {address.city.slice(0, 4)}...
             </div>
             <div>
               <CaretRight size={24} weight="bold" style={{ color: data.tenant.mainColor }} />
@@ -79,38 +79,38 @@ const Home = (data: Props) => {
       </div>
       <div className="mt-5">
         <span>Tipo de pagamento</span>
-        <div className="flex justify-between items-center">
-          <div 
-          onClick={() => setPaymentMethod("currency")} 
-          style={{ background: paymentMethod === "currency" ? tenant?.mainColor : "#F9F9FB" }}
+        <div className="flex justify-between items-center mt-2 ">
+          <div
+            onClick={() => setPaymentMethod("currency")}
+            style={{ background: paymentMethod === "currency" ? tenant?.mainColor : "#F9F9FB" }}
             className="w-[178px] h-[60px] px-2 flex items-center rounded transition-colors">
-            <div 
-            className="h-12 w-12 bg-red-[] flex items-center justify-center rounded transition-colors"
-            style={{ background: paymentMethod === "currency" ? "#F08E00" : "#F9F9FB" }}
+            <div
+              className="h-12 w-12 bg-red-[] flex items-center justify-center rounded transition-colors"
+              style={{ background: paymentMethod === "currency" ? "#F08E00" : "#F9F9FB" }}
             >
-              <CurrencyCircleDollar 
-              style={{ color: paymentMethod === "currency" ? "#FFF" : "#000" }} 
-              size={24} 
+              <CurrencyCircleDollar
+                style={{ color: paymentMethod === "currency" ? "#FFF" : "#000" }}
+                size={24}
               />
             </div>
-            <span className="ml-5" >
+            <span className="ml-5" style={{ color: paymentMethod === "currency" ? "#FFF" : "#000" }}  >
               Dinheiro
             </span>
           </div>
-          <div 
-          onClick={() => setPaymentMethod("card")} 
-          style={{ background: paymentMethod === "card" ? tenant?.mainColor : "#F9F9FB" }}
-          className="w-[178px] h-[60px] px-2 flex items-center rounded transition-colors">
-            <div 
-              className="h-12 w-12 flex items-center justify-center rounded transition-colors" 
-            style={{ background: paymentMethod === "card" ? "#F08E00" : "#F9F9FB" }}
+          <div
+            onClick={() => setPaymentMethod("card")}
+            style={{ background: paymentMethod === "card" ? tenant?.mainColor : "#F9F9FB" }}
+            className="w-[178px] h-[60px] px-2 flex items-center rounded transition-colors">
+            <div
+              className="h-12 w-12 flex items-center justify-center rounded transition-colors"
+              style={{ background: paymentMethod === "card" ? "#F08E00" : "#F9F9FB" }}
             >
               <CreditCard
-              style={{ color: paymentMethod === "card" ? "#FFF": "#000" }} 
-              size={24} 
+                style={{ color: paymentMethod === "card" ? "#FFF" : "#000" }}
+                size={24}
               />
             </div>
-            <span className="ml-5" >
+            <span className="ml-5" style={{ color: paymentMethod === "card" ? "#FFF" : "#000" }}  >
               Cartão
             </span>
           </div>
@@ -120,19 +120,31 @@ const Home = (data: Props) => {
         <div className="mt-5">
           <label className="flex flex-col" >
             <span>Troco</span>
-            <input 
-            type="number" 
-            className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
-            onChange={e => setMoneyReturn(e.target.valueAsNumber)}
-            value={moneyReturn}
-            placeholder="Digite quanto você vai precisar de troco"
+            <input
+              type="number"
+              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+              onChange={e => setMoneyReturn(e.target.valueAsNumber)}
+              value={moneyReturn}
+              placeholder="Digite quanto você vai precisar de troco"
             />
           </label>
         </div>
       }
       <div className="mt-5">
         <span>Cupom de desconto</span>
-        <Ticket size={32} weight="bold" />
+        <div className=" bg-[#F9F9FB] mt-2 h-[60px] flex items-center justify-between px-2 rounded-md">
+          <div className="flex items-center justify-center">
+            <div className="bg-white h-12 w-12 flex items-center justify-center rounded-md">
+              <Ticket size={24} style={{ color: tenant?.mainColor }} />
+            </div>
+            <span className="uppercase ml-5" >
+              Burger10
+            </span>
+          </div>
+          <div >
+            <CheckCircle className="rounded-full text-[#6AB70A]" size={24}/>
+          </div>
+        </div>
       </div>
       <hr className="mt-4 mb-4" />
       <span>
