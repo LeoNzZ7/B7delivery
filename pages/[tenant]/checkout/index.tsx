@@ -20,7 +20,8 @@ const Home = (data: Props) => {
   const [address, setAddress] = useState<Address>(data.address);
   const [products, setProducts] = useState<Product[]>(data.products);
   const [paymentMethod, setPaymentMethod] = useState<"currency" | "card">("currency");
-  const [moneyReturn, setMoneyReturn] = useState<number>();
+  const [moneyReturn, setMoneyReturn] = useState<number>(0);
+  const [moneyReturnInputActive, setMoneyReturnInputActive] = useState(false);
   const [delivery, setDelivery] = useState(12.50);
   const [discount, setDiscount] = useState(5);
   const [subTotal, setSubTotal] = useState(0);
@@ -31,8 +32,6 @@ const Home = (data: Props) => {
   }, []);
 
   useEffect(() => {
-    setTenant(data.tenant);
-
     let price = 0
 
     for (let i = 0; i < products.length; i++) {
@@ -118,16 +117,27 @@ const Home = (data: Props) => {
       </div>
       {paymentMethod === "currency" &&
         <div className="mt-5">
-          <label className="flex flex-col" >
-            <span>Troco</span>
-            <input
-              type="number"
-              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
-              onChange={e => setMoneyReturn(e.target.valueAsNumber)}
-              value={moneyReturn}
-              placeholder="Digite quanto você vai precisar de troco"
-            />
-          </label>
+          {moneyReturnInputActive &&
+            <label className="flex flex-col" >
+              <span>Troco</span>
+              <input
+                type="number"
+                className={`border-2 bg-[#F9F9FB] h-[60px] rounded-md focus:border-2 focus:ring-0`}
+                style={{ borderColor: moneyReturnInputActive ? tenant?.mainColor : "#FFF" }}
+                onChange={e => setMoneyReturn(e.target.valueAsNumber)}
+                onBlur={() => setMoneyReturnInputActive(false)}
+                value={moneyReturn}
+                placeholder="Digite quanto você vai precisar de troco"
+              />
+            </label>
+          }
+          {!moneyReturnInputActive &&
+            <div className="bg-[#F9F9FB] h-[60px] flex items-center" onClick={() => setMoneyReturnInputActive(!moneyReturnInputActive)}  >
+              <span className="ml-4" >
+                {moneyReturn.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+              </span>
+            </div>
+          }
         </div>
       }
       <div className="mt-5">
@@ -142,7 +152,7 @@ const Home = (data: Props) => {
             </span>
           </div>
           <div >
-            <CheckCircle className="rounded-full text-[#6AB70A]" size={24}/>
+            <CheckCircle className="rounded-full text-[#6AB70A]" size={24} />
           </div>
         </div>
       </div>
