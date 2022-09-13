@@ -45,20 +45,6 @@ const handlePut: NextApiHandler = async (req, res) => {
   res.status(401).json({ Error: "Envie todos os dados necessários" });
 };
 
-const handleDelete: NextApiHandler = async (req, res) => {
-  const { id, id_user } = req.body;
-
-  if(id && id_user) {
-    const deleteUser = await api.deleteAddress(id, id_user);
-
-    if(deleteUser) {
-      res.status(200).json({"Usuário deletado com sucesso": deleteUser})
-    }
-  };
-
-  res.status(400).json({Error: "Envie todos os dados necessários"});
-};
-
 const handler: NextApiHandler = (req, res) => {
   switch (req.method) {
     case "POST":
@@ -66,9 +52,6 @@ const handler: NextApiHandler = (req, res) => {
       break;
     case "PUT":
       handlePut(req, res);
-      break;
-    case "DELETE":
-      handleDelete(req, res);
       break;
   };
 };

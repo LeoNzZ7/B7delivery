@@ -1,4 +1,5 @@
 import { NextApiResponse } from "next";
+import { Product } from "../types/product";
 import prisma from "./prisma";
 
 export default {
@@ -109,14 +110,29 @@ export default {
   },
 
   getUserAddress: async (id: string) => {
-    const user = await prisma.user_Addresses.findMany({
+    const addresses = await prisma.user_Addresses.findMany({
       where: {
         id: parseInt(id)
       }
     });
 
-    if (user) {
-      return user;
+    if (addresses) {
+      return addresses;
+    };
+
+    return null;
+  },
+
+  getUserActiveAddress: async (id: number) => {
+    const address = await prisma.user_Addresses.findFirst({
+      where: {
+        id_user: id,
+        active: "true"
+      }
+    });
+
+    if (address) {
+      return address;
     };
 
     return null;
@@ -172,11 +188,10 @@ export default {
     return null;
   },
 
-  deleteAddress: async (id: string, id_user: string) => {
+  deleteAddress: async (id: string) => {
     const deleteAddress = await prisma.user_Addresses.deleteMany({
       where: {
         id: parseInt(id),
-        id_user: parseInt(id_user)
       }
     });
 
@@ -202,7 +217,7 @@ export default {
           id: parseInt(id_product)
         },
         data: {
-          multiplePrice: product.price     
+          multiplePrice: product.price
         }
       });
 
@@ -280,6 +295,81 @@ export default {
 
     if (deleteBag) {
       return deleteBag;
+    };
+
+    return null;
+  },
+
+  createNewOrder: async (id_user: number, id_tenant: string, id_address: number, payment_method: string, payment_money_return: string, delivery: string, subtotal: string, total: string) => {
+    const newOrder = await prisma.orders.create({
+      data: {
+        id_user,
+        id_tenant: parseInt(id_tenant),
+        id_address,
+        status: "preparando",
+        payment_method,
+        payment_money_return: parseFloat(payment_money_return),
+        delivery: parseFloat(delivery),
+        subtotal: parseFloat(subtotal),
+        total: parseFloat(total),
+      }
+    });
+
+    if(newOrder) {
+      return newOrder;
+    };
+
+    return null
+  },
+
+  createOrderProducts: async (id_user: number, id_order: number) => {
+    const bag = await prisma.bag.findFirst({
+      where: {
+        id_user
+      }
+    });
+
+    if(bag) {
+      const products = await prisma.product.findMany({
+        where: {
+          id_bag: bag.id
+        }
+      });
+
+      if(products) {
+        for(let i in products) {
+          const orderProducts = await prisma.order_product.create({
+            data: {
+              id_order,
+              id_products: products[i].id,
+              quantity: products[i].quantity
+            }
+          });
+          
+          if(orderProducts) {
+            return orderProducts;
+          };
+
+          return null;
+        };
+      };
+
+      return null;
+    }
+
+    return null;
+  },
+
+  createOrderStatues: async (id_order: number, status: string) => {
+    const newOrderStatus = await prisma.order_statues.create({
+      data: {
+        id_order,
+        status
+      }
+    });
+
+    if(newOrderStatus) {
+      return newOrderStatus;
     };
 
     return null;

@@ -66,7 +66,6 @@ model Product {
   id            Int     @id @default(autoincrement())
   id_tenant     Int
   id_bag        Int?
-  order         Int
   name          String
   image         String
   category      String
@@ -75,9 +74,9 @@ model Product {
   multiplePrice Float?
   description   String?
 
-  bag           Bag?            @relation(fields: [id_bag], references: [id])
-  tenant        Tenant          @relation(fields: [id_tenant], references: [id])
-  order_product order_product[]
+  bag           Bag?           @relation(fields: [id_bag], references: [id])
+  tenant        Tenant         @relation(fields: [id_tenant], references: [id])
+  order_product order_product?
 
   @@map("Products")
 }
@@ -101,9 +100,10 @@ model Orders {
   id_address           Int
   payment_method       String
   payment_money_return Float
+  delivery             Float
   subtotal             Float
-  status               String
   total                Float
+  status               String
 
   Address       User_Addresses  @relation(fields: [id_address], references: [id])
   Tenant        Tenant          @relation(fields: [id_tenant], references: [id])
@@ -113,15 +113,15 @@ model Orders {
 }
 
 model order_product {
-  id              Int   @id @default(autoincrement())
-  id_order        Int
-  id_product      Int
-  products_prices Float
-  quantity        Int
+  id          Int @id @default(autoincrement())
+  id_order    Int
+  id_products Int @unique
+  quantity    Int
 
-  product Product @relation(fields: [id_product], references: [id])
+  products Product @relation(fields: [id_products], references: [id])
+  order    Orders  @relation(fields: [id_order], references: [id])
 
-  order Orders @relation(fields: [id_order], references: [id])
+  @@map("orders_products")
 }
 
 model order_statues {

@@ -54,7 +54,8 @@ const NewAddress = (data: Props) => {
             <span>CEP</span>
             <input
               type="text"
-              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:border-2 focus:ring-0`}
+              style={{ borderColor: tenant?.mainColor }}
               placeholder="Digite aqui o seu CEP"
               value={cep}
               onChange={e => setCep(e.target.value)}
@@ -64,8 +65,9 @@ const NewAddress = (data: Props) => {
             <label>
               <span>Rua</span>
               <input
-                className={`border-0 bg-[#F9F9FB] max-w-[177px] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+                className={`border-0 bg-[#F9F9FB] max-w-[177px] h-[60px] rounded-md focus:border-2 focus:ring-0`}
                 type="text"
+                style={{ borderColor: tenant?.mainColor }}
                 placeholder="Digite aqui a sua Rua"
                 value={street}
                 onChange={e => setStreet(e.target.value)}
@@ -75,8 +77,9 @@ const NewAddress = (data: Props) => {
               <span>Número</span>
               <div className="flex justify-start" >
                 <input
-                  className={`border-0 bg-[#F9F9FB] max-w-[177px] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+                  className={`border-0 bg-[#F9F9FB] max-w-[177px] h-[60px] rounded-md focus:border-2 focus:ring-0`}
                   type="text"
+                  style={{ borderColor: tenant?.mainColor }}
                   placeholder="Digite aqui o número da sua casa"
                   value={houseNumber}
                   onChange={e => setHouseNumber(e.target.value)}
@@ -87,8 +90,9 @@ const NewAddress = (data: Props) => {
           <label className="flex flex-col mt-5" >
             <span>Bairro</span>
             <input
-              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:border-2 focus:ring-0`}
               type="text"
+              style={{ borderColor: tenant?.mainColor }}
               placeholder="Digite aqui o seu bairro"
               value={district}
               onChange={e => setDistrict(e.target.value)}
@@ -97,8 +101,9 @@ const NewAddress = (data: Props) => {
           <label className="flex flex-col mt-5" >
             <span>Cidade</span>
             <input
-              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:border-2 focus:ring-0`}
               type="text"
+              style={{ borderColor: tenant?.mainColor }}
               placeholder="Digite aqui o sua cidade"
               value={city}
               onChange={e => setCity(e.target.value)}
@@ -107,8 +112,9 @@ const NewAddress = (data: Props) => {
           <label className="flex flex-col mt-5" >
             <span>Estado</span>
             <input
-              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:border-2 focus:ring-0`}
               type="text"
+              style={{ borderColor: tenant?.mainColor }}
               placeholder="Digite aqui o seu estado"
               value={state}
               onChange={e => setState(e.target.value)}
@@ -117,8 +123,9 @@ const NewAddress = (data: Props) => {
           <label className="flex flex-col mt-5" >
             <span>Complemento</span>
             <input
-              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:ring-2 focus:ring-[${tenant?.mainColor}]`}
+              className={`border-0 bg-[#F9F9FB] h-[60px] rounded-md focus:border-2 focus:ring-0`}
               type="text"
+              style={{ borderColor: tenant?.mainColor }}
               placeholder="Digite aqui o complemento"
               value={complement}
               onChange={e => setComplement(e.target.value)}
