@@ -21,13 +21,18 @@ const handlePost: NextApiHandler = async (req, res) => {
             const orderStatues = await api.createOrderStatues(newOrder.id, newOrder.status);
 
             if(orderStatues) {
-              const orderProducts = await api.createOrderProducts(user.id, newOrder.id);
+              for(let i in bagProducts.products) {
+                const newOrderProducts = await api.createOrderProducts(newOrder.id, bagProducts.products[i].id, bagProducts.products[i].quantity);
+              };  
 
-              if(orderProducts) {
-                res.status(200).json({newOrder, orderStatues, orderProducts});
+              const defaultProducts = await api.returnDefaultProducts(user.id);
+              const orderProducts = await api.getOrderProducts(newOrder.id);
+
+              if(defaultProducts) {
+                res.status(200).json({ orderProducts, orderStatues, newOrder });
               };
 
-              res.status(400).json({ Error: "Não foi possível atribuir os produtos ao pedido" });
+              res.status(400).json({Error: "Falha ao finalizar o pedido"})
             };
 
             res.status(400).json({ Error: "Falha ao criar o status do pedido" });
@@ -53,6 +58,3 @@ const handle: NextApiHandler = (req, res) => {
 };
 
 export default handle;
-
-
-  //const newOrder = await api.createNewOrder(id_user, id_tenant, id_address, payment_method, payment_money_return, delivery, subtotal, total);

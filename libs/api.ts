@@ -223,8 +223,8 @@ export default {
 
       if (updateProduct) {
         return updateProduct;
-      }
-    }
+      };
+    };
 
     return null;
   },
@@ -239,7 +239,7 @@ export default {
 
     if (newItemBag) {
       return newItemBag;
-    }
+    };
 
     return null;
   },
@@ -322,40 +322,18 @@ export default {
     return null
   },
 
-  createOrderProducts: async (id_user: number, id_order: number) => {
-    const bag = await prisma.bag.findFirst({
-      where: {
-        id_user
+  createOrderProducts: async (id_order: number, id_products: number, quantity: number) => {
+    const orderProducts = await prisma.order_product.create({
+      data: {
+        id_order,
+        id_products,
+        quantity,
       }
     });
-
-    if(bag) {
-      const products = await prisma.product.findMany({
-        where: {
-          id_bag: bag.id
-        }
-      });
-
-      if(products) {
-        for(let i in products) {
-          const orderProducts = await prisma.order_product.create({
-            data: {
-              id_order,
-              id_products: products[i].id,
-              quantity: products[i].quantity
-            }
-          });
-          
-          if(orderProducts) {
-            return orderProducts;
-          };
-
-          return null;
-        };
-      };
-
-      return null;
-    }
+    
+    if(orderProducts) {
+      return orderProducts;
+    };
 
     return null;
   },
@@ -373,5 +351,41 @@ export default {
     };
 
     return null;
-  }
+  },
+
+  returnDefaultProducts: async (id_user: number) => {
+    const defaultProducts = await prisma.product.updateMany({
+      where: {
+        bag: {
+          id_user
+        }
+      },
+      data: {
+        id_bag: null,
+        quantity: 1
+      }
+    });
+
+    if(defaultProducts) {
+      return defaultProducts;
+    };
+
+    return null;
+  },
+
+  getOrderProducts: async (id_order: number) => {
+    const orderProducts = await prisma.product.findMany({
+      where: {
+        order_product: {
+          id_order
+        }
+      }
+    });
+
+    if(orderProducts) {
+      return orderProducts;
+    };
+
+    return null;
+  },
 };
