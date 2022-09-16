@@ -14,9 +14,6 @@ type Props = {
 
 export const OrdersComponent = (data: Props) => {
   const { tenant } = useAppContext();
-  
-  const [fullYear, setFullYear] = useState<Date>();
-  const [hours, setHours] = useState<Date>();
 
   const date = new Date(data.ordersStatues.created_at)
 
@@ -31,9 +28,26 @@ export const OrdersComponent = (data: Props) => {
           <span className="text-[20px] font-semibold" >
             Pedido #{data.orders.id}
           </span>
-          <span>
-            {data.orders.status}
-          </span>
+          {data.orders.status === "preparando" &&
+            <span className="bg-[#FEFAE6] w-[78px] h-[26px] flex items-center justify-center text-[#D4BC34] text-[11px] font-semibold first-letter:uppercase rounded" >
+              {data.orders.status}
+            </span>
+          }
+          {data.orders.status === "enviado" &&
+            <span className="bg-[#EDF1F8] w-[78px] h-[26px] flex items-center justify-center text-[#4F77BE] text-[11px] font-semibold first-letter:uppercase rounded" >
+              {data.orders.status}
+            </span>
+          }
+          {data.orders.status === "entregue" &&
+            <span className="bg-[#F1F8F6] w-[78px] h-[26px] flex items-center justify-center text-[#6AB70A] text-[11px] font-semibold first-letter:uppercase rounded" >
+              {data.orders.status}
+            </span>
+          }
+          {data.orders.status === "cancelado" &&
+            <span className="bg-[#F1D5DA] w-[78px] h-[26px] flex items-center justify-center text-[#C44D61] text-[11px] font-semibold first-letter:uppercase rounded" >
+              {data.orders.status}
+            </span>
+          }
         </div>
         <div>
           <span className="text-[#6A7D8B] text-[13px]" >
