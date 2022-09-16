@@ -1,5 +1,7 @@
+import axios from "axios";
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -16,6 +18,7 @@ import { authOptions } from "../../api/auth/[...nextauth]";
 
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
+  const { data: session } = useSession();
 
   const [address, setAddress] = useState<Address>(data.address);
   const [products, setProducts] = useState<Product[]>(data.products);
@@ -26,6 +29,29 @@ const Home = (data: Props) => {
   const [discount, setDiscount] = useState(5);
   const [subTotal, setSubTotal] = useState(0);
   const [total, setTotal] = useState(0);
+
+  const router = useRouter();
+
+  const handleFinishOrder = async () => {
+    let price = 0
+
+    for (let i = 0; i < products.length; i++) {
+      price += Math.round(products[i].multiplePrice)
+      Math.round(price);
+    };
+
+    setSubTotal(price + delivery);
+    setDiscount(Math.round((subTotal / 100) * 5));
+    setTotal(Math.round(subTotal - discount));
+
+    const order = await axios.post("/api/orders/", {
+      id_user: session?.user.id, id_tenant: tenant?.id, payment_method: paymentMethod, payment_money_return: moneyReturn, delivery, subtotal: subTotal, total
+    });
+
+    if(order) {
+      router.push(`/${data.tenant.slug}`)
+    };
+  };
 
   useEffect(() => {
     setTenant(data.tenant);
@@ -43,8 +69,6 @@ const Home = (data: Props) => {
     setDiscount(Math.round((subTotal / 100) * 5));
     setTotal(Math.round(subTotal - discount));
   });
-
-  const router = useRouter();
 
   return (
     <div className="px-6">
@@ -68,7 +92,11 @@ const Home = (data: Props) => {
               <MapPin size={24} weight="bold" style={{ color: data.tenant.mainColor }} />
             </div>
             <div className="text-[15px]" >
-              {address.house_number} - {address.street.length > 20 ? address.street.slice(0, 20) + "..." : address.street} - {address.city.slice(0, 4)}...
+              {address &&
+                <span>
+                  {address.house_number} - {address.street.length > 20 ? address.street.slice(0, 20) + "..." : address.street} - {address.city.slice(0, 4)}...
+                </span>
+              }
             </div>
             <div>
               <CaretRight size={24} weight="bold" style={{ color: data.tenant.mainColor }} />
@@ -220,7 +248,7 @@ const Home = (data: Props) => {
             {total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
           </span>
         </div>
-        <Button invertColors={false} buttonText="Finalizar Pedido" />
+        <Button invertColors={false} handleFunction={handleFinishOrder} buttonText="Finalizar Pedido" />
       </div>
     </div>
   );

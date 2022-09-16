@@ -95,7 +95,7 @@ model Bag {
 
 model Orders {
   id                   Int    @id @default(autoincrement())
-  id_user              Int    @unique
+  id_user              Int
   id_tenant            Int
   id_address           Int
   payment_method       String

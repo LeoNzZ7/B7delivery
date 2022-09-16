@@ -388,4 +388,20 @@ export default {
 
     return null;
   },
+
+  getOrdersStatues: async (id_user: string) => {
+    const orderStatues = await prisma.order_statues.findMany({
+      where: {
+        order: {
+          id_user: parseInt(id_user)
+        }
+      }
+    });
+
+    if(orderStatues) {
+      return orderStatues;
+    };
+
+    return null;
+  }
 };

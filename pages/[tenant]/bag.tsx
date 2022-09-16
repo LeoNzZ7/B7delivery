@@ -42,7 +42,7 @@ const Bag = (data: Props) => {
     setTenant(data.tenant);
 
     let price = 0
-    
+
     for (let i = 0; i < products.length; i++) {
       price += Math.round(products[i].multiplePrice)
       Math.round(price);
@@ -98,40 +98,49 @@ const Bag = (data: Props) => {
         ))
       }
       <div>
-        <div className="mb-5" >
-          <span className="text-[#6A7D8B]" >Calcular frete e prazo</span>
-          <div className="mt-4 flex justify-between">
-            <input
-              className="rounded-md h-[56px] w-[80%] border-2 focus:ring-0"
-              style={{ borderColor: data.tenant.mainColor }}
-              placeholder="Digite o seu CEP"
-              value={zipCode}
-              onChange={e => setZipCode(e.target.value)}
-              type="text"
-            />
-            <button className="uppercase border-2 font-semibold w-[56px] h-[56px] rounded-md" style={{ borderColor: data.tenant.mainColor, color: data.tenant.mainColor }} >Ok</button>
+        {address &&
+          <div>
+            <div className="mb-5" >
+              <span className="text-[#6A7D8B]" >Calcular frete e prazo</span>
+              <div className="mt-4 flex justify-between">
+                <input
+                  className="rounded-md h-[56px] w-[80%] border-2 focus:ring-0"
+                  style={{ borderColor: data.tenant.mainColor }}
+                  placeholder="Digite o seu CEP"
+                  value={zipCode}
+                  onChange={e => setZipCode(e.target.value)}
+                  type="text"
+                />
+                <button className="uppercase border-2 font-semibold w-[56px] h-[56px] rounded-md" style={{ borderColor: data.tenant.mainColor, color: data.tenant.mainColor }} >Ok</button>
+              </div>
+            </div>
+            <div className="bg-[#F9F9FA] h-[94px] flex flex-col justify-center items-center rounded-sm my-5" >
+              <span className="text-[#6A7D8B] text-[10px] w-[85%]" >
+                {address &&
+                  <span>
+                    {address.street} - {address.city} - {address.state}
+                  </span>
+                }
+              </span>
+              <div className="flex justify-between w-[85%] mt-2">
+                <span className="text-black font-normal" >
+                  Receba em até 20 minutos
+                </span>
+                <span className="font-semibold" style={{ color: data.tenant.mainColor }} >
+                  R$12,50
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="bg-[#F9F9FA] h-[94px] flex flex-col justify-center items-center rounded-sm my-5" >
-          <span className="text-[#6A7D8B] text-[10px] w-[85%]" >
-            {address.street} - {address.city} - {address.state}
-          </span>
-          <div className="flex justify-between w-[85%] mt-2">
-            <span className="text-black font-normal" >
-              Receba em até 20 minutos
-            </span>
-            <span className="font-semibold" style={{ color: data.tenant.mainColor }} >
-              R$12,50
-            </span>
-          </div>
-        </div>
+        }
         <div className="bg-[#F9F9FB] my-5 p-5">
           <div className="flex justify-between">
             <span>
               Subtotal
             </span>
             <span>
-              {subTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+              {products.length > 0 && <span>{subTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>}
+              {products.length === 0 && <span>--</span>}
             </span>
           </div>
           <div className="flex justify-between my-2 border-opacity-60">
@@ -139,7 +148,8 @@ const Bag = (data: Props) => {
               Frete
             </span>
             <span>
-              {delivery.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+              {products.length > 0 && <span>{delivery.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>}
+              {products.length === 0 && <span>--</span>}
             </span>
           </div>
           <div className="flex justify-between my-2 border-opacity-60 border-b-2 border-dashed border-[#96A3AB] pb-3">
@@ -147,7 +157,8 @@ const Bag = (data: Props) => {
               Desconto
             </span>
             <span>
-              {discount.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+              {products.length > 0 && <span>{discount.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>}
+              {products.length === 0 && <span>--</span>}
             </span>
           </div>
           <div className="flex justify-between">
@@ -155,7 +166,7 @@ const Bag = (data: Props) => {
               Total
             </span>
             <span className="text-[#FB9400] font-semibold text-[24px]" >
-              {total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+              {products.length > 0 ? total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : <span>R$ 0</span>}
             </span>
           </div>
           <Button invertColors={false} buttonText="Continuar" link={`/${data.tenant.slug}/checkout`} />

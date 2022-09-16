@@ -48,7 +48,7 @@ export const Menu = ({ openMenu, setOpenMenu,  }: props) => {
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <ShoppingBagOpen size={16} className="mr-4" />
-          <Link href={session ? "/b7burger/bag" : `/${tenant?.slug}/singin`}>Sacola</Link>
+          <Link href={session ? `/${tenant?.slug}/bag` : `/${tenant?.slug}/singin`}>Sacola</Link>
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <Heart size={16} className="mr-4" />
@@ -56,7 +56,7 @@ export const Menu = ({ openMenu, setOpenMenu,  }: props) => {
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <ClipboardText size={16} className="mr-4" />
-          <Link href="" >Meus pedidos</Link>
+          <Link href={session ? `/${tenant?.slug}/orders` : `/${tenant?.slug}/singin`} >Meus pedidos</Link>
         </div>
         <div className="flex items-center text-[#6A7D8B] mt-10 text-[16px]">
           <Gear size={16} className="mr-4" />

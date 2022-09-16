@@ -5,7 +5,7 @@ import { Product } from "../../../types/product";
 const handlePost: NextApiHandler = async (req, res) => {
   const { id_user, id_tenant, payment_method, payment_money_return, delivery, subtotal, total } = req.body;
   
-  if (id_user && id_tenant && payment_method && payment_money_return && delivery && subtotal && total) {
+  if (id_user && id_tenant && payment_method && delivery && subtotal && total) {
     const user = await api.getUser(id_user);
 
     if(user) {

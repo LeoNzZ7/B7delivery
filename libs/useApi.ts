@@ -99,7 +99,7 @@ export const useApi = async (tenantSlug: string) => ({
       }
     });
 
-    if(address) {
+    if (address) {
       return address;
     };
 
@@ -110,7 +110,7 @@ export const useApi = async (tenantSlug: string) => ({
     const address = await prisma.user_Addresses.findFirst({
       where: {
         id_user: id,
-        active: "yes"
+        active: "true"
       }
     });
 
@@ -128,10 +128,18 @@ export const useApi = async (tenantSlug: string) => ({
       }
     });
 
-    if(banners) {
+    if (banners) {
       return banners
     };
 
     return null;
+  },
+
+  getOrders: async (id_user: number) => {
+    return await prisma.orders.findMany({
+      where: {
+        id_user
+      }
+    });
   }
 });
