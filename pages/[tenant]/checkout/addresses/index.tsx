@@ -14,7 +14,6 @@ import { authOptions } from "../../../api/auth/[...nextauth]";
 
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
-  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     setTenant(data.tenant);

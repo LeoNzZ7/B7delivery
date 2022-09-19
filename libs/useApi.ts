@@ -141,5 +141,34 @@ export const useApi = async (tenantSlug: string) => ({
         id_user
       }
     });
+  },
+
+  getOrder: async (id_order: string) => {
+    return await prisma.orders.findFirst({
+      where: {
+        id: parseInt(id_order),
+      }
+    });
+  },
+
+  getOrderProducts: async (id_order: number) => {
+    return await prisma.product.findMany({
+      where: {
+        order_product: {
+          id_order: id_order
+        }
+      }
+    });
+  },
+  getOrderAddress: async (id_order: number) => {
+    return await prisma.user_Addresses.findFirst({
+      where: {
+        Orders: {
+          some: {
+            id: id_order
+          }
+        }
+      }
+    });
   }
 });

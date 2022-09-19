@@ -19,13 +19,13 @@ export const Header = ({ title, subTitle }: Props) => {
           <ArrowLeft style={{ color: tenant?.mainColor }} size={24} className='w-6' />
         </button>
         {title &&
-          <div className="flex flex-1 flex-col justify-center items-center mt-[-12px]">
+          <div className="flex flex-1 flex-col items-center mt-[-12px]">
             <h1 className="font-semibold text-[24px] h-7">{title}</h1>
             <span className="text-[13px] text-[#6A7D8B] text-center">{subTitle}</span>
           </div>
         }
       </div>
-      <hr className="mt-5" />
+      <hr className="mt-4" />
     </div>
   );
 }

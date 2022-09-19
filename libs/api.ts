@@ -403,5 +403,21 @@ export default {
     };
 
     return null;
+  },
+
+  getOrdersStatus: async (id_order: string) => {
+    const orderStatus = await prisma.order_statues.findFirst({
+      where: {
+        order: {
+          id: parseInt(id_order)
+        }
+      }
+    });
+
+    if (orderStatus) {
+      return orderStatus;
+    };
+
+    return null;
   }
 };

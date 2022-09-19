@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { ArrowRight } from "phosphor-react"
-import { useState } from "react";
 import { useAppContext } from "../contexts/app.content";
 import { Order } from "../types/orders";
 import { OrderStatus } from "../types/ordersStatues";
@@ -15,7 +14,7 @@ type Props = {
 export const OrdersComponent = (data: Props) => {
   const { tenant } = useAppContext();
 
-  const date = new Date(data.ordersStatues.created_at)
+  const date = new Date(data.ordersStatues.created_at as Date)
 
   const orderDateFormatted = format(date, "' 'd'/'MM'/'yyyy' - ' k':'mm", {
     locale: ptBR,
@@ -61,7 +60,7 @@ export const OrdersComponent = (data: Props) => {
             </span>
             <span className="text-[20px] font-semibold " style={{ color: tenant?.mainColor }}>{data.orders.total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</span>
           </div>
-          <Link href={`/b7burger/`}>
+          <Link href={`/b7burger/orders/order/${data.orders.id}`}>
             <div style={{ borderColor: tenant?.mainColor }} className="flex items-center justify-center h-12 w-12 border rounded">
               <ArrowRight style={{ color: tenant?.mainColor }} size={24} />
             </div>
