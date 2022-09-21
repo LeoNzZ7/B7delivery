@@ -1,4 +1,6 @@
 # 🛠Em Desenvolvimento...
+# 📱 Layout do projeto 
+![B7deliveryGIF.gif](https://github.com/LeoNzZ7/B7delivery/blob/main/B7deliveryGIF.gif)
 # 🚀 Tecnologias utilizadas
 ### ✔ Typescript
 ### ✔ NextJs
