@@ -1,9 +1,14 @@
 # 🛠Em Desenvolvimento...
+# 📄 Sobre o projeto 
+B7delivery é um site onde se é possivel fazer pedidos para os restaurantes cadastrados no site.
 # 📱 Layout do projeto 
 ![B7deliveryGIF.gif](https://github.com/LeoNzZ7/B7delivery/blob/main/B7deliveryGIF.gif)
 # 🚀 Tecnologias utilizadas
 ### ✔ Typescript
 ### ✔ NextJs
+### ✔ Next-auth
+### ✔ Axios
+### ✔ Date-fns
 ### ✔ Tailwindcss
 ### ✔ Postcss
 ### ✔ Swiper
