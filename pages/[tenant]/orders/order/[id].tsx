@@ -1,7 +1,6 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"; import { Header } from "../../../../components/header";
@@ -16,8 +15,8 @@ import ptBR from 'date-fns/locale/pt-BR';
 import { Product } from "../../../../types/product";
 import Link from "next/link";
 import { Address } from "../../../../types/addresses";
-import { AddressesComponent } from "../../../../components/addresses";
 import { CaretRight, CheckCircle, CreditCard, CurrencyCircleDollar, MapPin, Ticket } from "phosphor-react";
+import { ProductItem } from "../../../../components/productItem";
 
 const Orders = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -85,29 +84,7 @@ const Orders = (data: Props) => {
         <hr className="mt-4 mb-4" />
         {products &&
           products.map((item, index) => (
-            <div key={index} >
-              <div className="flex items-center justify-between h-[85px] w-[373px]">
-                <Link href={`/${tenant?.slug}/product/${item.id}`}>
-                  <div className="w-[75px] h-[75px] flex justify-center items-center" >
-                    <img src={item.image} className="w-[85px] h-auto" />
-                  </div>
-                </Link>
-                <div className="flex flex-col flex-1 justify-between p-2" >
-                  <span className="text-[12px] font-medium text-[#666]">{item.category}</span>
-                  <span className="text-[#1B1B1B] text-[18px]">{item.name}</span>
-                  <span className="text-[#FB9400] text-[16px] font-semibold">
-                    {(item.multiplePrice).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                  </span>
-                </div>
-                <div>
-                  <span style={{ color: tenant?.mainColor }} >Qnt.</span>
-                  <div className="w-11 h-11 border flex items-center justify-center font-bold border-[#F2F4F5] rounded" style={{ color: tenant?.mainColor }} >
-                    {item.quantity < 10 ? "0" : null}{item.quantity}
-                  </div>
-                </div>
-              </div>
-              <hr className="mb-4 mt-4" />
-            </div>
+            <ProductItem ProductType="order" data={item} key={index} />
           ))
         }
       </div>
@@ -276,7 +253,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       tenant,
       order,
       products,
-      address
+      address,
     }
   };
 };

@@ -9,6 +9,7 @@ import { ArrowLeft, CaretRight, CheckCircle, CreditCard, CurrencyCircleDollar, M
 import { useEffect, useState } from "react";
 import { Button } from "../../../components/button";
 import { Counter } from "../../../components/counter";
+import { ProductItem } from "../../../components/productItem";
 import { useAppContext } from "../../../contexts/app.content";
 import { useApi } from "../../../libs/useApi";
 import { Address } from "../../../types/addresses";
@@ -18,7 +19,7 @@ import { authOptions } from "../../api/auth/[...nextauth]";
 
 const Home = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
-  const { data: session } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
 
   const [address, setAddress] = useState<Address>(data.address);
   const [products, setProducts] = useState<Product[]>(data.products);
@@ -44,12 +45,14 @@ const Home = (data: Props) => {
     setDiscount(Math.round((subTotal / 100) * 5));
     setTotal(Math.round(subTotal - discount));
 
-    const order = await axios.post("/api/orders/", {
-      id_user: session?.user.id, id_tenant: tenant?.id, payment_method: paymentMethod, payment_money_return: moneyReturn, delivery, subtotal: subTotal, total
-    });
+    if(session && tenant) {
+      const order = await axios.post("/api/orders/", {
+        id_user: session.user.id as number, id_tenant: tenant.id, payment_method: paymentMethod, payment_money_return: moneyReturn, delivery, subtotal: subTotal, total
+      });
 
-    if(order) {
-      router.push(`/${data.tenant.slug}`)
+      if (order) {
+        router.push(`/${data.tenant.slug}`);
+      };
     };
   };
 
@@ -58,10 +61,10 @@ const Home = (data: Props) => {
   }, []);
 
   useEffect(() => {
-    let price = 0
+    let price = 0;
 
     for (let i = 0; i < products.length; i++) {
-      price += Math.round(products[i].multiplePrice)
+      price += Math.round(products[i].multiplePrice);
       Math.round(price);
     };
 
@@ -191,28 +194,7 @@ const Home = (data: Props) => {
       <hr className="mt-4 mb-4" />
       {products &&
         products.map((item, index) => (
-          <div key={index} >
-            <div className="flex items-center justify-between h-[85px] w-[373px]">
-              <Link href={`/${tenant?.slug}/product/${item.id}`}>
-                <div className="w-[75px] h-[75px] flex justify-center items-center" >
-                  <img src={item.image} className="w-[85px] h-auto" />
-                </div>
-              </Link>
-              <div className="flex flex-col flex-1 justify-between p-2" >
-                <span className="text-[12px] font-medium text-[#666]">{item.category}</span>
-                <span className="text-[#1B1B1B] text-[18px]">{item.name}</span>
-                <span className="text-[#FB9400] text-[16px] font-semibold">
-                  {(item.multiplePrice).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                </span>
-              </div>
-              <>
-                <div>
-                  <Counter product={item} />
-                </div>
-              </>
-            </div>
-            <hr className="mb-4 mt-4" />
-          </div>
+          <ProductItem data={item} ProductType="cart" key={index} />
         ))
       }
       <div className="bg-[#F9F9FB] my-5 p-5">
@@ -280,7 +262,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 
   const products = await api.getProductsBag(session.user.id.toString());
-  const address = await api.getAddress(session.user.id);
+  const address = await api.getAddress(session.user.id as number);
 
   return {
     props: {

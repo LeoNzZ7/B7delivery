@@ -15,6 +15,7 @@ import { Product } from "../../types/product";
 import { Tenant } from "../../types/tenant";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { useSession } from "next-auth/react";
+import { ProductItem } from "../../components/productItem";
 
 const Bag = (data: Props) => {
   const { tenant, setTenant } = useAppContext();
@@ -73,28 +74,7 @@ const Bag = (data: Props) => {
       <hr className="mt-4 mb-4" />
       {products &&
         products.map((item, index) => (
-          <div key={index} >
-            <div className="flex items-center justify-between h-[85px] w-[373px]">
-              <Link href={`/${tenant?.slug}/product/${item.id}`}>
-                <div className="w-[75px] h-[75px] flex justify-center items-center" >
-                  <img src={item.image} className="w-[85px] h-auto" />
-                </div>
-              </Link>
-              <div className="flex flex-col flex-1 justify-between p-2" >
-                <span className="text-[12px] font-medium text-[#666]">{item.category}</span>
-                <span className="text-[#1B1B1B] text-[18px]">{item.name}</span>
-                <span className="text-[#FB9400] text-[16px] font-semibold">
-                  {(item.multiplePrice).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
-                </span>
-              </div>
-              <>
-                <div onClick={handleGetProductsBag} >
-                  <Counter product={item} />
-                </div>
-              </>
-            </div>
-            <hr className="mb-4 mt-4" />
-          </div>
+          <ProductItem data={item} ProductType="cart" key={index} />
         ))
       }
       <div>

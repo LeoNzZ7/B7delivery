@@ -1,6 +1,6 @@
 import axios from "axios";
 import { GetServerSideProps } from "next";
-import { Session, unstable_getServerSession } from "next-auth";
+import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useEffect, useState } from "react";

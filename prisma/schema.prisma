@@ -76,7 +76,7 @@ model Product {
 
   bag           Bag?           @relation(fields: [id_bag], references: [id])
   tenant        Tenant         @relation(fields: [id_tenant], references: [id])
-  order_product order_product?
+  order_product order_product[]
 
   @@map("Products")
 }

@@ -26,15 +26,17 @@ const Home = (data: Props) => {
 
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
+  
+
   useEffect(() => {
     let newFilteredProducts: Product[] = []
     for (let product of data.products) {
       if (product.name.toLocaleLowerCase().indexOf(searchText.toLowerCase()) > -1) {
         newFilteredProducts.push(product);
       };
-    }
+    } 
     setFilteredProducts(newFilteredProducts);
-  }, [searchText]);
+  }, [searchText, openMenu]);
 
   return (
     <>
@@ -68,7 +70,7 @@ const Home = (data: Props) => {
               {!openMenu && <Banner banners={data.banners} />}
             <div className="m-auto grid grid-cols-2 px-6 gap-6 pb-6">
                 {products.map((item, index) => (
-                  <ProductItem data={item} key={index} />
+                  <ProductItem ProductType="home" data={item} key={index} />
                 ))}
               </div>
             </>
@@ -77,7 +79,7 @@ const Home = (data: Props) => {
             <>
             <div className="m-auto grid grid-cols-2 px-6 gap-6 mt-6 pb-6">
                 {filteredProducts.map((item, index) => (
-                  <ProductItem data={item} key={index} />
+                  <ProductItem ProductType="home" data={item} key={index} />
                 ))}
               </div>
             </>

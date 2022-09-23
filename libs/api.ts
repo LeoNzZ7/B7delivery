@@ -1,5 +1,4 @@
 import { NextApiResponse } from "next";
-import { Product } from "../types/product";
 import prisma from "./prisma";
 
 export default {
@@ -154,7 +153,7 @@ export default {
         city,
         state,
         complement,
-        active: userAddress.length > 0 ? "no" : "yes"
+        active: userAddress.length > 0 ? "false" : "true"
       }
     });
 
@@ -419,5 +418,25 @@ export default {
     };
 
     return null;
+  },
+
+  getLastOrderStatus: async (id_user: string) => {
+    const orderStatus = await prisma.order_statues.findMany({
+      where: {
+        order: {
+          id_user: parseInt(id_user)
+        }
+      }
+    })
+
+    if (orderStatus) {
+      for (let i in orderStatus) {
+        if (Math.min(orderStatus[i].id)) {
+          return orderStatus[i]
+        }
+      }
+    };
+
+    return null
   }
 };

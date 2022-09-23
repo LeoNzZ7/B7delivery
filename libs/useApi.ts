@@ -160,6 +160,7 @@ export const useApi = async (tenantSlug: string) => ({
       }
     });
   },
+
   getOrderAddress: async (id_order: number) => {
     return await prisma.user_Addresses.findFirst({
       where: {
@@ -170,5 +171,5 @@ export const useApi = async (tenantSlug: string) => ({
         }
       }
     });
-  }
+  },
 });
