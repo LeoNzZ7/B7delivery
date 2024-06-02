@@ -1,4 +1,3 @@
-# 🛠Em Desenvolvimento...
 # 🍔 B7delivery
 # 📄 Sobre o projeto 
 B7delivery é um site onde se é possivel fazer pedidos para os restaurantes cadastrados no site.
